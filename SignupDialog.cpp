@@ -48,7 +48,7 @@ bool SignupDialog::confirmSignupPassword()
     bool confirmed;
     confirmed = mIO->confirmPassword(mPasswordEdit->text(), mPasswordConfirm->text());
 
-    if(confirmed == true)
+    if(confirmed)
     {
         QMessageBox::information(this, "Signup", "Signup successful");
         passwordToStorage();

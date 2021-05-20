@@ -38,16 +38,11 @@ bool IOClass::checkPassword(const QString& pass)
     qDebug() <<"pass is:" << pass;
     qDebug() << "mPassword is:" << mPassword;
 
-    if(pass == mPassword)
-        return true;
-    else
-        return false;
+    return pass == mPassword;
+
 }
 
 bool IOClass::confirmPassword(const QString& pass1, const QString& pass2)
 {
-    if(pass1 == pass2)
-        return true;
-    else
-        return false;
+    return pass1 == pass2;
 }

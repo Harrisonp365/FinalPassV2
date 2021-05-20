@@ -43,10 +43,8 @@ void LoginDialog::createUI()
 bool LoginDialog::checkPassword()
 {
    mIO->getPassword();
-   if(mIO->checkPassword(mLoginLineEdit->text()) == true)
-       return true;
-   else
-       return false;
+   return mIO->checkPassword(mLoginLineEdit->text());
+
 }
 
 void LoginDialog::onSignupRequest()
@@ -58,7 +56,7 @@ void LoginDialog::onSignupRequest()
 
 void LoginDialog::onLoginRequest()
 {
-    if(checkPassword() == true)
+    if(checkPassword())
     {
         hide();
         emit loginRequest();
