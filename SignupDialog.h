@@ -1,6 +1,5 @@
 #ifndef SIGNUPDIALOG_H
 #define SIGNUPDIALOG_H
-
 #include <QDialog>
 
 class IOClass;

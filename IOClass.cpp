@@ -1,7 +1,8 @@
 #include "IOClass.h"
+#include "SignupDialog.h"
 #include <QDebug>
 #include <QMessageBox>
-#include "SignupDialog.h"
+
 
 IOClass::IOClass()
 {

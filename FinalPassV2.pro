@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,6 +17,7 @@ SOURCES += \
 
 HEADERS += \
     IOClass.h \
+    InitDatabase.h \
     LoginDialog.h \
     MainWindow.h \
     SignupDialog.h

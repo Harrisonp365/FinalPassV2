@@ -3,7 +3,6 @@
 #include "LoginDialog.h"
 #include <QVBoxLayout>
 #include <QLabel>
-
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)

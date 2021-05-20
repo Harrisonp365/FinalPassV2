@@ -1,3 +1,6 @@
+#include "IOClass.h"
+#include "LoginDialog.h"
+#include "SignupDialog.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -5,12 +8,6 @@
 //Below are incls that might change
 #include <QMessageBox>
 #include <QDebug>
-
-#include "IOClass.h"
-#include "LoginDialog.h"
-#include "SignupDialog.h"
-
-
 
 SignupDialog::SignupDialog(QWidget *parent) :
     QDialog{parent},

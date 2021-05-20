@@ -1,11 +1,10 @@
+#include "LoginDialog.h"
+#include "IOClass.h"
 #include <QGridLayout>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
 #include <QMessageBox>
-
-#include "LoginDialog.h"
-#include "IOClass.h"
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog{parent},
