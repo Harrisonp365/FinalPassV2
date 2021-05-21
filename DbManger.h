@@ -7,6 +7,8 @@ class DbManger
 {
 public:
     DbManger(const QString& path);
+    bool addUsername(const QString& username);
+    bool addPassword(const QString& password);
 private:
     QSqlDatabase mDb;
 };

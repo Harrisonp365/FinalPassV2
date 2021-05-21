@@ -27,4 +27,17 @@ bool DbManger::addUsername(const QString &username)
     return success;
 }
 
+bool DbManger::addPassword(const QString &password)
+{
+    bool success = false;
+
+    QSqlQuery query;
+    query.prepare("INSERT INTO userDb (password) VALUES (:password)");
+    query.bindValue(":password", password);
+    if(query.exec())
+        success = true;
+    else
+        qDebug() << "add password error: " << query.lastError();
+}
+
 
