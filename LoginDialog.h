@@ -28,6 +28,7 @@ private slots:
 
 private:
     SignupDialog* mSignupDialog;
+    QLineEdit* mUserNameLineEdit;
     QLineEdit* mLoginLineEdit;
     IOClass*  mIO;
 };

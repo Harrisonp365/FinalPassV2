@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "LoginDialog.h"
+#include "DbManger.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QDebug>
@@ -10,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    DbManger("C:/Users/Harry/Dev/FinalPassV2/usersDb.db");
     createUI();
     hide();
 
