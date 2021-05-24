@@ -1,5 +1,5 @@
-#ifndef DBMANGER_H
-#define DBMANGER_H
+#ifndef DBMANAGER_H
+#define DBMANAGER_H
 #include <QString>
 #include <QtSql>
 
@@ -9,8 +9,9 @@ public:
     DbManger(const QString& path);
     bool addUsername(const QString& username);
     bool addPassword(const QString& password);
+    bool checkForUser(const QString& username);
 private:
     QSqlDatabase mDb;
 };
 
-#endif // DBMANGER_H
+#endif // DBMANAGER_H

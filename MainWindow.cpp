@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "LoginDialog.h"
-#include "DbManger.h"
+#include "DbManager.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QDebug>
