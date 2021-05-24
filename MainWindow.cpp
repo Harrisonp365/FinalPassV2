@@ -2,16 +2,31 @@
 #include "ui_MainWindow.h"
 #include "LoginDialog.h"
 #include "DbManager.h"
+#include "DbUtils.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow{parent}
+    , ui{new Ui::MainWindow},
+      mDb{DbManager(DB::databasePath)}
 {
     ui->setupUi(this);
-    DbManger("C:/Users/Harry/Dev/FinalPassV2/usersDb.db");
+    if (mDb.isOpen()) {
+        // Creates a table if it doens't exist.
+        // Otherwise, it will use existing table.
+        mDb.createTable();
+        mDb.addUser("Lee");
+        mDb.addUser("Harrison");
+        mDb.addUser("Oscar");
+        mDb.listAllUsers();
+        mDb.removeUser("Oscar");
+        mDb.listAllUsers();
+        qDebug() << "End";
+    } else {
+        qDebug() << "Database is not open!";
+    }
     createUI();
     hide();
 

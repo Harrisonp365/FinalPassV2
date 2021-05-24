@@ -18,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     DbManager.h \
+    DbUtils.h \
     IOClass.h \
     LoginDialog.h \
     MainWindow.h \

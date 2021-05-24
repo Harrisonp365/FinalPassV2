@@ -1,17 +1,22 @@
-#ifndef DBMANAGER_H
-#define DBMANAGER_H
+#ifndef DbManager_H
+#define DbManager_H
+#include <QObject>
 #include <QString>
 #include <QtSql>
 
-class DbManger
+class DbManager
 {
 public:
-    DbManger(const QString& path);
-    bool addUsername(const QString& username);
-    bool addPassword(const QString& password);
-    bool checkForUser(const QString& username);
+    DbManager(const QString& path);
+    ~DbManager();
+    bool isOpen() const;
+    bool createTable();
+    bool addUser(const QString& username);
+    bool removeUser(const QString& username);
+    bool userExists(const QString& username);
+    void listAllUsers() const;
 private:
     QSqlDatabase mDb;
 };
 
-#endif // DBMANAGER_H
+#endif // DbManager_H

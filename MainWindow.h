@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "LoginDialog.h"
 #include "SignupDialog.h"
+#include "DbManager.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -27,5 +28,6 @@ private:
     Ui::MainWindow *ui;
     SignupDialog *mSignupDialog;
     LoginDialog *mLoginDialog;
+    DbManager mDb;
 };
 #endif // MAINWINDOW_H
