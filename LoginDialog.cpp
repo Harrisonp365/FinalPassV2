@@ -28,6 +28,7 @@ void LoginDialog::createUI()
     QLabel *Header = new QLabel(tr("Welcome to FinalPass, please Login or Signup below"), this);
     mUserNameLineEdit = new QLineEdit(this);
     mLoginLineEdit = new QLineEdit(this);
+    mLoginLineEdit->setEchoMode(QLineEdit::Password);
     QPushButton *signUpBtn = new QPushButton("&Signup...", this);
 
     loginWindowLayout->addWidget(Header, Qt::AlignHCenter);

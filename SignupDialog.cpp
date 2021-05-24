@@ -26,12 +26,16 @@ void SignupDialog::createUI()
 {
         setWindowTitle("Signup");
         QVBoxLayout *signupWindowLayout = new QVBoxLayout(this);
-        QLabel *Header = new QLabel(tr("Please enter your password below and confirm"), this);
+        QLabel *Header = new QLabel(tr("Please enter your password and username below and confirm"), this);
+        mUserEdit = new QLineEdit(this);
         mPasswordEdit = new QLineEdit(this);
+        mPasswordEdit->setEchoMode(QLineEdit::Password);
         mPasswordConfirm = new QLineEdit(this);
+        mPasswordConfirm->setEchoMode(QLineEdit::Password);
         QPushButton *checkPassBtn = new QPushButton(tr("&Signup..."), this);
 
         signupWindowLayout->addWidget(Header, Qt::AlignHCenter);
+        signupWindowLayout->addWidget(mUserEdit, Qt::AlignCenter);
         signupWindowLayout->addWidget(mPasswordEdit, Qt::AlignHCenter);
         signupWindowLayout->addWidget(mPasswordConfirm, Qt::AlignHCenter);
         signupWindowLayout->addWidget(checkPassBtn, Qt::AlignHCenter);
@@ -49,14 +53,12 @@ bool SignupDialog::confirmSignupPassword()
     {
         QMessageBox::information(this, "Signup", "Signup successful");
         passwordToStorage();
-        return true;
-        //send
+
     }
     else
     {
         QMessageBox::warning(this, "Signup", "Passwords do not match");
-        return false;
-        //need to work out how to keep dialog here
+        //need to work out how to keep dialog here---TODO
     }
 }
 

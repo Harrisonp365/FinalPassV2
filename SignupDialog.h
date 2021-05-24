@@ -21,9 +21,11 @@ private slots:
     bool confirmSignupPassword();
 
 private:
+    void userToDb();
     void passwordToStorage();
 
 private:
+    QLineEdit* mUserEdit;
     QLineEdit* mPasswordEdit;
     QLineEdit* mPasswordConfirm;
     IOClass*  mIO;

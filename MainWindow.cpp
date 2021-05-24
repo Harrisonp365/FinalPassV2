@@ -13,23 +13,16 @@ MainWindow::MainWindow(QWidget *parent)
       mDb{DbManager(DB::databasePath)}
 {
     ui->setupUi(this);
-    if (mDb.isOpen()) {
-        // Creates a table if it doens't exist.
-        // Otherwise, it will use existing table.
-        mDb.createTable();
-        mDb.addUser("Lee");
-        mDb.addUser("Harrison");
-        mDb.addUser("Oscar");
-        mDb.listAllUsers();
-        mDb.removeUser("Oscar");
-        mDb.listAllUsers();
-        qDebug() << "End";
-    } else {
-        qDebug() << "Database is not open!";
-    }
     createUI();
     hide();
 
+    //Database set up
+    if (mDb.isOpen())
+        mDb.createTable();
+    else
+        qDebug() << "Database is not open!";
+
+    //Connections
     mLoginDialog = new LoginDialog(this);
     connect(mLoginDialog, &LoginDialog::loginRequest, this, &MainWindow::onLoginRequest);
     connect(mLoginDialog, &LoginDialog::signupRequest, this, &MainWindow::onSignupRequest);
@@ -37,17 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
     bool state = mLoginDialog->exec();
 
     if (state)
-    {
-        //QDialog::Accepted
-        qDebug() << "m_loginDialog accepted";
         onLoginRequest();
-    }
     else
-    {
-        //QDialog::Rejected
         qDebug() << "m_loginDialog rejected";
-
-    }
 }
 
 MainWindow::~MainWindow()

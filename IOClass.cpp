@@ -9,6 +9,11 @@ IOClass::IOClass()
 
 }
 
+void IOClass::writeUsername(const QString &username)
+{
+    //DbManager::addUser(username);
+}
+
 void IOClass::writePassword(const QString& pass)
 {
     QFile file("pass.txt");
