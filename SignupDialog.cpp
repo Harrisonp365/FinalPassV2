@@ -41,19 +41,19 @@ void SignupDialog::createUI()
         signupWindowLayout->addWidget(mPasswordConfirm, Qt::AlignHCenter);
         signupWindowLayout->addWidget(checkPassBtn, Qt::AlignHCenter);
 
-        connect(checkPassBtn, SIGNAL(clicked()), this, SLOT(confirmSignupPassword()));
+        connect(checkPassBtn, SIGNAL(clicked()), this, SLOT(confirmSignup()));
         setLayout(signupWindowLayout);
 }
 
-bool SignupDialog::confirmSignupPassword()
+void SignupDialog::confirmSignup()
 {
-    bool confirmed;
-    confirmed = mIO->confirmPassword(mPasswordEdit->text(), mPasswordConfirm->text());
+    bool confirmed = mIO->confirmPassword(mPasswordEdit->text(), mPasswordConfirm->text());
 
     if(confirmed)
     {
-        QMessageBox::information(this, "Signup", "User added to DB");
         userToDb();
+        QMessageBox::information(this, "Signup", "User added to DB");
+        //send user back to login screen----TODO
     }
     else
     {

@@ -1,5 +1,6 @@
 #ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
+#include "DbManager.h"
 #include "SignupDialog.h"
 #include <QDialog>
 
@@ -20,7 +21,7 @@ signals:
 private:
     void createUI();
     void createConnections();
-    bool checkPassword();
+    bool checkforUser();
 
 private slots:
     void onSignupRequest();
@@ -29,7 +30,8 @@ private slots:
 private:
     SignupDialog* mSignupDialog;
     QLineEdit* mUserNameLineEdit;
-    QLineEdit* mLoginLineEdit;
+    QLineEdit* mPasswordLineEdit;
+    DbManager mDb;
     IOClass*  mIO;
 };
 

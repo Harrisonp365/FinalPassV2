@@ -44,7 +44,7 @@ bool DbManager::addUser(const QString &username, const QString &password)
     QSqlQuery query;
     query.prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
     query.bindValue(":username", username);
-    query.bindValue(":password", password);
+    query.bindValue(":password", password); // Unsure if this is the correct way to do this
 
     if(query.exec())
         success = true;
@@ -54,32 +54,16 @@ bool DbManager::addUser(const QString &username, const QString &password)
     return success;
 }
 
-/*bool DbManager::addPassword(const QString &password)
+bool DbManager::removeUser(const QString &username, const QString &password)
 {
     bool success = false;
 
-    QSqlQuery query;
-    query.prepare("INSERT INTO users (password) VALUES (:password)");
-    query.bindValue(":password", password);
-
-    if(query.exec())
-        success = true;
-    else
-        qDebug() << "addPassword() error: " << query.lastError();
-
-    return success;
-}
-*/
-
-bool DbManager::removeUser(const QString &username)
-{
-    bool success = false;
-
-    if(userExists(username))
+    if(userExists(username, password))
     {
         QSqlQuery query;
-        query.prepare("DELETE FROM users WHERE username = (:username)");
+        query.prepare("DELETE FROM users WHERE username = (:username) AND password = (:password)");
         query.bindValue(":username", username);
+        query.bindValue(":password", password);
         success = query.exec();
 
         if(!success)
@@ -88,13 +72,14 @@ bool DbManager::removeUser(const QString &username)
     return success;
 }
 
-bool DbManager::userExists(const QString &username)
+bool DbManager::userExists(const QString &username, const QString &password)
 {
     bool success = false;
 
     QSqlQuery query;
-    query.prepare("SELECT username FROM users WHERE username = (:username)");
+    query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
     query.bindValue(":username", username);
+    query.bindValue(":password", password);
 
     if (query.exec())
        if (query.next())
@@ -116,5 +101,3 @@ void DbManager::listAllUsers() const
         qDebug() << "=> " << user;
     }
 }
-
-

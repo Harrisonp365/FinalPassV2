@@ -16,12 +16,9 @@ public:
     explicit SignupDialog(QWidget *parent = nullptr);
     ~SignupDialog();
 
-private:
-
-
 private slots:
     void createUI();
-    void confirmSignupPassword();
+    void confirmSignup();
 
 private:
     void userToDb();

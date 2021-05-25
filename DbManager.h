@@ -12,8 +12,8 @@ public:
     bool isOpen() const;
     bool createTable();
     bool addUser(const QString& username, const QString &password);
-    bool removeUser(const QString& username);
-    bool userExists(const QString& username);
+    bool removeUser(const QString& username, const QString &password);
+    bool userExists(const QString& username, const QString &password);
     void listAllUsers() const;
 private:
     QSqlDatabase mDb;
