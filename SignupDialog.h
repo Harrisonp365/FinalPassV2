@@ -21,11 +21,11 @@ private:
 
 private slots:
     void createUI();
-    bool confirmSignupPassword();
+    void confirmSignupPassword();
 
 private:
     void userToDb();
-    void passwordToStorage();
+    void passwordToDb();
 
 private:
     QLineEdit* mUserEdit;

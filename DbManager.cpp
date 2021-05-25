@@ -37,13 +37,14 @@ bool DbManager::createTable()
     return success;
 }
 
-bool DbManager::addUser(const QString &username)
+bool DbManager::addUser(const QString &username, const QString &password)
 {
     bool success = false;
 
     QSqlQuery query;
-    query.prepare("INSERT INTO users (username) VALUES (:username)");
+    query.prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
     query.bindValue(":username", username);
+    query.bindValue(":password", password);
 
     if(query.exec())
         success = true;
@@ -53,7 +54,7 @@ bool DbManager::addUser(const QString &username)
     return success;
 }
 
-bool DbManager::addPassword(const QString &password)
+/*bool DbManager::addPassword(const QString &password)
 {
     bool success = false;
 
@@ -68,6 +69,7 @@ bool DbManager::addPassword(const QString &password)
 
     return success;
 }
+*/
 
 bool DbManager::removeUser(const QString &username)
 {

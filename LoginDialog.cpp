@@ -29,14 +29,17 @@ void LoginDialog::createUI()
     mUserNameLineEdit = new QLineEdit(this);
     mLoginLineEdit = new QLineEdit(this);
     mLoginLineEdit->setEchoMode(QLineEdit::Password);
+    QPushButton *loginBtn = new QPushButton("&Login...", this);
     QPushButton *signUpBtn = new QPushButton("&Signup...", this);
 
     loginWindowLayout->addWidget(Header, Qt::AlignHCenter);
     loginWindowLayout->addWidget(mUserNameLineEdit, Qt::AlignCenter);
     loginWindowLayout->addWidget(mLoginLineEdit, Qt::AlignHCenter);
-    loginWindowLayout->addWidget(signUpBtn);
+    loginWindowLayout->addWidget(loginBtn, Qt::AlignLeft); // maybe group box these buttons to align next to one another
+    loginWindowLayout->addWidget(signUpBtn, Qt::AlignRight);
 
     connect(mLoginLineEdit, SIGNAL(returnPressed()), this, SLOT(onLoginRequest()));
+    connect(loginBtn, SIGNAL(clicked()), this, SLOT(onLoginRequest()));
     connect(signUpBtn, SIGNAL(clicked()), this, SLOT(onSignupRequest()));
 
     setLayout(loginWindowLayout);
@@ -46,7 +49,7 @@ bool LoginDialog::checkPassword()
 {
    //mIO->getPassword();
    return mIO->checkPassword(mLoginLineEdit->text());
-
+    qDebug() << checkPassword();
 }
 
 void LoginDialog::onSignupRequest()

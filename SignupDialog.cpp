@@ -53,8 +53,7 @@ bool SignupDialog::confirmSignupPassword()
     if(confirmed)
     {
         QMessageBox::information(this, "Signup", "User added to DB");
-        passwordToStorage();
-
+        userToDb();
     }
     else
     {
@@ -66,11 +65,6 @@ bool SignupDialog::confirmSignupPassword()
 void SignupDialog::userToDb()
 {
     QString username = mUserEdit->text();
-    mDb.addUser(username);
-}
-
-void SignupDialog::passwordToStorage()
-{
     QString password = mPasswordConfirm->text();
-    mDb.addPassword(password);
+    mDb.addUser(username, password);
 }

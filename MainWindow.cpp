@@ -52,7 +52,6 @@ void MainWindow::createUI()
 
 void MainWindow::onSignupRequest()
 {
-    qDebug() << "onSignupRequested HIT";
     //if(!mSignUpDialog)
         mSignupDialog = new SignupDialog(this);
 
