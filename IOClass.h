@@ -11,9 +11,9 @@ class IOClass
 {
 public:
     IOClass();
-    void writeUsername(const QString& username);
-    void writePassword(const QString& pass);
-    const QString getPassword();
+//   void writeUsername(const QString& username);
+//   void writePassword(const QString& pass);
+//   const QString getPassword();
     bool checkPassword(const QString& pass);
     bool confirmPassword(const QString& pass1, const QString& pass2);
 

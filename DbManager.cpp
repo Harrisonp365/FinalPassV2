@@ -53,6 +53,22 @@ bool DbManager::addUser(const QString &username)
     return success;
 }
 
+bool DbManager::addPassword(const QString &password)
+{
+    bool success = false;
+
+    QSqlQuery query;
+    query.prepare("INSERT INTO users (password) VALUES (:password)");
+    query.bindValue(":password", password);
+
+    if(query.exec())
+        success = true;
+    else
+        qDebug() << "addPassword() error: " << query.lastError();
+
+    return success;
+}
+
 bool DbManager::removeUser(const QString &username)
 {
     bool success = false;

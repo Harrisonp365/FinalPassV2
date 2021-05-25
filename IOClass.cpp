@@ -8,10 +8,10 @@ IOClass::IOClass()
 {
 
 }
-
+/*
 void IOClass::writeUsername(const QString &username)
 {
-    //DbManager::addUser(username);
+    DbManager::addUser(username);
 }
 
 void IOClass::writePassword(const QString& pass)
@@ -36,9 +36,11 @@ const QString IOClass::getPassword()
     mPassword = line;
     file.close();
 
+
+
     return mPassword;
 }
-
+*/
 bool IOClass::checkPassword(const QString& pass)
 {
     qDebug() <<"pass is:" << pass;

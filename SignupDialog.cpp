@@ -11,7 +11,8 @@
 
 SignupDialog::SignupDialog(QWidget *parent) :
     QDialog{parent},
-    mIO{new IOClass}
+    mIO{new IOClass},
+    mDb{DbManager(DB::databasePath)}
 {
     createUI();
 }
@@ -51,7 +52,7 @@ bool SignupDialog::confirmSignupPassword()
 
     if(confirmed)
     {
-        QMessageBox::information(this, "Signup", "Signup successful");
+        QMessageBox::information(this, "Signup", "User added to DB");
         passwordToStorage();
 
     }
@@ -62,7 +63,14 @@ bool SignupDialog::confirmSignupPassword()
     }
 }
 
+void SignupDialog::userToDb()
+{
+    QString username = mUserEdit->text();
+    mDb.addUser(username);
+}
+
 void SignupDialog::passwordToStorage()
 {
-    mIO->writePassword(mPasswordConfirm->text());
+    QString password = mPasswordConfirm->text();
+    mDb.addPassword(password);
 }

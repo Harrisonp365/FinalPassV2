@@ -44,7 +44,7 @@ void LoginDialog::createUI()
 
 bool LoginDialog::checkPassword()
 {
-   mIO->getPassword();
+   //mIO->getPassword();
    return mIO->checkPassword(mLoginLineEdit->text());
 
 }
