@@ -101,3 +101,18 @@ void DbManager::listAllUsers() const
         qDebug() << "=> " << user;
     }
 }
+
+bool DbManager::removeAllUsers()
+{
+    bool success = false;
+
+    QSqlQuery removeQuery;
+    removeQuery.prepare("DELETE FROM users");
+
+    if (removeQuery.exec())
+        success = true;
+    else
+        qDebug() << "remove all users failed: " << removeQuery.lastError();
+
+    return success;
+}

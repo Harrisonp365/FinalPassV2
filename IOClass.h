@@ -11,7 +11,7 @@ class IOClass
 {
 public:
     IOClass();
-    bool checkPassword(const QString& pass);
+    //bool checkPassword(const QString& pass);
     bool confirmPassword(const QString& pass1, const QString& pass2);
 
 private:

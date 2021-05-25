@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     else
         qDebug() << "Database is not open!";
 
+    //mDb.removeAllUsers();
+
     //Connections
     mLoginDialog = new LoginDialog(this);
     connect(mLoginDialog, &LoginDialog::loginRequest, this, &MainWindow::onLoginRequest);
