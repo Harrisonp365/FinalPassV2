@@ -7,6 +7,7 @@
 class DbManager
 {
 public:
+    static DbManager* instance();
     DbManager(const QString& path);
     ~DbManager();
     bool isOpen() const;

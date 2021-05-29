@@ -1,4 +1,13 @@
 #include "DbManager.h"
+#include "DbUtils.h"
+
+DbManager* DbManager::instance()
+{
+    static DbManager* obj = nullptr; // new DbManager(DB::databasePath);
+    if (!obj)
+        obj = new DbManager(DB::databasePath);
+    return obj;
+}
 
 DbManager::DbManager(const QString& path)
 {
