@@ -14,6 +14,9 @@ public:
     explicit LoginDialog(QWidget *parent = nullptr);
     ~LoginDialog();
 
+    QString username() const;
+    QString password() const;
+
 signals:
     void signupRequest();
     void loginRequest();
@@ -28,10 +31,10 @@ private slots:
     void onLoginRequest();
 
 private:
-    SignupDialog* mSignupDialog;
+    SignupDialog* mSignupDialog = nullptr;
     QLineEdit* mUserNameLineEdit;
     QLineEdit* mPasswordLineEdit;
-    DbManager mDb;
+    DbManager* mDb;
     IOClass*  mIO;
 };
 

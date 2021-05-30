@@ -8,7 +8,7 @@ class DbManager
 {
 public:
     static DbManager* instance();
-    DbManager(const QString& path);
+
     ~DbManager();
     bool isOpen() const;
     bool createTable();
@@ -17,6 +17,9 @@ public:
     bool userExists(const QString& username, const QString &password);
     void listAllUsers() const;
     bool removeAllUsers();
+
+private:
+    DbManager(const QString& path);
 
 private:
     QSqlDatabase mDb;
