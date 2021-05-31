@@ -19,15 +19,23 @@ public:
 
 private:
     void createUI();
+    void showLoginDialog();
 
 private slots:
     void onSignupRequest();
     void onLoginRequest();
 
+
+protected:
+    void showEvent(QShowEvent* event) override;
+
 private:
     Ui::MainWindow *ui;
     SignupDialog *mSignupDialog;
-    LoginDialog *mLoginDialog;
-    DbManager mDb;
+    LoginDialog *mLoginDialog = nullptr;
+    DbManager* mDb;
+
+    QString mUsername;
+    QString mPass;
 };
 #endif // MAINWINDOW_H

@@ -10,8 +10,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow{parent}
     , ui{new Ui::MainWindow}
-    , mDb{DbManager::instance()}
     , mLoginDialog{nullptr}
+    , mDb{DbManager::instance()}
 {
     ui->setupUi(this);
     createUI();
@@ -45,12 +45,13 @@ void MainWindow::showLoginDialog()
 
     int state = mLoginDialog->exec();
 
-    if (state == QDialog::Accepted) {
-        //onLoginRequest();
+    if (state == QDialog::Accepted)
+    {
         mUsername = mLoginDialog->username();
         mPass = mLoginDialog->password();
     }
-    else {
+    else
+    {
         qDebug() << "m_loginDialog rejected";
     }
 

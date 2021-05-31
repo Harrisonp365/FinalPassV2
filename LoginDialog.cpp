@@ -22,6 +22,16 @@ LoginDialog::~LoginDialog()
     delete mIO;
 }
 
+QString LoginDialog::username() const
+{
+    return mUserNameLineEdit->text();
+}
+
+QString LoginDialog::password() const
+{
+    return mPasswordLineEdit->text();
+}
+
 void LoginDialog::createUI()
 {
     setWindowTitle(tr("Login"));

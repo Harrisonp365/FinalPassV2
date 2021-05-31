@@ -12,14 +12,13 @@
 SignupDialog::SignupDialog(QWidget *parent) :
     QDialog{parent},
     mIO{new IOClass},
-    mDb{DbManager(DB::databasePath)}
+    mDb{DbManager::instance()}
 {
     createUI();
 }
 
 SignupDialog::~SignupDialog()
 {
-    delete this;
     delete mIO;
 }
 
@@ -66,5 +65,5 @@ void SignupDialog::userToDb()
 {
     QString username = mUserEdit->text();
     QString password = mPasswordConfirm->text();
-    mDb.addUser(username, password);
+    mDb->addUser(username, password);
 }

@@ -1,7 +1,7 @@
 #ifndef SIGNUPDIALOG_H
 #define SIGNUPDIALOG_H
 #include "DbManager.h"
-#include "DbUtils.h"
+//#include "DbUtils.h"
 #include <QDialog>
 
 
@@ -29,7 +29,7 @@ private:
     QLineEdit* mPasswordEdit;
     QLineEdit* mPasswordConfirm;
     IOClass*  mIO;
-    DbManager mDb;
+    DbManager* mDb;
 };
 
 #endif // SIGNUPDIALOG_H
