@@ -49,12 +49,10 @@ void SignupDialog::confirmSignup()
     {
         userToDb();
         QMessageBox::information(this, "Signup", "User added to DB");
-        //send user back to login screen----TODO
     }
     else
     {
         QMessageBox::warning(this, "Signup", "Passwords do not match");
-        //need to work out how to keep dialog here---TODO
     }
 }
 

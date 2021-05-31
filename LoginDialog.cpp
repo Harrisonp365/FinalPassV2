@@ -87,5 +87,8 @@ void LoginDialog::onSignupRequest()
 
 void LoginDialog::onLoginRequest()
 {  
-    accept();
+    if(checkforUser())
+        accept();
+    else
+        reject();
 }
