@@ -1,6 +1,5 @@
 #include "DbManager.h"
 #include "LoginDialog.h"
-#include "IOClass.h"
 #include <QGridLayout>
 #include <QPushButton>
 #include <QLineEdit>
@@ -8,9 +7,8 @@
 #include <QMessageBox>
 
 LoginDialog::LoginDialog(QWidget *parent) :
-    QDialog{parent},
-    mDb{DbManager::instance()},
-    mIO{new IOClass}
+    QDialog{parent}
+   ,mDb{DbManager::instance()}
 
 {
    //setMinimumSize(500,500);
@@ -19,7 +17,6 @@ LoginDialog::LoginDialog(QWidget *parent) :
 
 LoginDialog::~LoginDialog()
 {
-    delete mIO;
 }
 
 QString LoginDialog::username() const
@@ -76,15 +73,12 @@ void LoginDialog::onSignupRequest()
 
     if(state != QDialog::Accepted)
     {
-        //QDialog::Accepted
         qDebug() << "m_signupDialog accepted";
     }
     else
     {
-        //QDialog::Rejected
         qDebug() << "m_signupDialog rejected";
     }
-
        delete mSignupDialog;
        mSignupDialog = nullptr;
 

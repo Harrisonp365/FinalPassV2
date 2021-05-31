@@ -1,4 +1,3 @@
-#include "IOClass.h"
 #include "LoginDialog.h"
 #include "SignupDialog.h"
 #include <QVBoxLayout>
@@ -10,16 +9,14 @@
 #include <QDebug>
 
 SignupDialog::SignupDialog(QWidget *parent) :
-    QDialog{parent},
-    mIO{new IOClass},
-    mDb{DbManager::instance()}
+    QDialog{parent}
+   ,mDb{DbManager::instance()}
 {
     createUI();
 }
 
 SignupDialog::~SignupDialog()
 {
-    delete mIO;
 }
 
 void SignupDialog::createUI()
@@ -46,7 +43,7 @@ void SignupDialog::createUI()
 
 void SignupDialog::confirmSignup()
 {
-    bool confirmed = mIO->confirmPassword(mPasswordEdit->text(), mPasswordConfirm->text());
+    bool confirmed = checkPasswords(mPasswordEdit->text(), mPasswordConfirm->text());
 
     if(confirmed)
     {
@@ -66,4 +63,9 @@ void SignupDialog::userToDb()
     QString username = mUserEdit->text();
     QString password = mPasswordConfirm->text();
     mDb->addUser(username, password);
+}
+
+bool SignupDialog::checkPasswords(const QString& pass1, const QString& pass2)
+{
+    return pass1 == pass2;
 }

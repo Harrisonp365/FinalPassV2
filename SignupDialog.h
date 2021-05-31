@@ -1,7 +1,6 @@
 #ifndef SIGNUPDIALOG_H
 #define SIGNUPDIALOG_H
 #include "DbManager.h"
-//#include "DbUtils.h"
 #include <QDialog>
 
 
@@ -23,6 +22,7 @@ private slots:
 private:
     void userToDb();
     void passwordToDb();
+    bool checkPasswords(const QString& pass1, const QString& pass2);
 
 private:
     QLineEdit* mUserEdit;

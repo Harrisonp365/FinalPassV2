@@ -10,7 +10,6 @@ CONFIG += c++11
 
 SOURCES += \
     DbManager.cpp \
-    IOClass.cpp \
     LoginDialog.cpp \
     Main.cpp \
     MainWindow.cpp \
@@ -19,7 +18,6 @@ SOURCES += \
 HEADERS += \
     DbManager.h \
     DbUtils.h \
-    IOClass.h \
     LoginDialog.h \
     MainWindow.h \
     SignupDialog.h
