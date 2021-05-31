@@ -9,7 +9,7 @@
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog{parent},
-    mDb{DbManager(DB::databasePath)},
+    mDb{DbManager::instance()},
     mIO{new IOClass}
 
 {
@@ -19,7 +19,6 @@ LoginDialog::LoginDialog(QWidget *parent) :
 
 LoginDialog::~LoginDialog()
 {
-    delete this;
     delete mIO;
 }
 
@@ -54,7 +53,7 @@ bool LoginDialog::checkforUser()
     QString password = mPasswordLineEdit->text();
     qDebug() << username;
     qDebug() << password;
-    if(mDb.userExists(username, password))
+    if(mDb->userExists(username, password))
         result = true;
 
     return result;
@@ -62,24 +61,27 @@ bool LoginDialog::checkforUser()
 
 void LoginDialog::onSignupRequest()
 {
-    hide();
-    emit signupRequest();
-    accept();
-}
+    mSignupDialog = new SignupDialog(this);
+    int state = mSignupDialog->exec();
 
-void LoginDialog::onLoginRequest()
-{
-    if(checkforUser())
+    if(state != QDialog::Accepted)
     {
-        hide();
-        emit loginRequest();
-        accept();
+        //QDialog::Accepted
+        qDebug() << "m_signupDialog accepted";
     }
     else
     {
-        QMessageBox::warning(this, "Login", "Password is incorrect");
-        //exec();
-        //work out how not to advance to either signup dialog on main window
+        //QDialog::Rejected
+        qDebug() << "m_signupDialog rejected";
     }
 
+       delete mSignupDialog;
+       mSignupDialog = nullptr;
+
+       accept();
+}
+
+void LoginDialog::onLoginRequest()
+{  
+    accept();
 }

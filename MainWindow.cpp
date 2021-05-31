@@ -9,37 +9,53 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow{parent}
-    , ui{new Ui::MainWindow},
-      mDb{DbManager(DB::databasePath)}
+    , ui{new Ui::MainWindow}
+    , mDb{DbManager::instance()}
+    , mLoginDialog{nullptr}
 {
     ui->setupUi(this);
     createUI();
-    hide();
 
     //Database set up
-    if (mDb.isOpen())
-        mDb.createTable();
+    if (mDb->isOpen())
+        mDb->createTable();
     else
-        qDebug() << "Database is not open!";
-
-    //mDb.removeAllUsers();
-
-    //Connections
-    mLoginDialog = new LoginDialog(this);
-    connect(mLoginDialog, &LoginDialog::loginRequest, this, &MainWindow::onLoginRequest);
-    connect(mLoginDialog, &LoginDialog::signupRequest, this, &MainWindow::onSignupRequest);
-
-    bool state = mLoginDialog->exec();
-
-    if (state)
-        onLoginRequest();
-    else
-        qDebug() << "m_loginDialog rejected";
+        qDebug() << "Database is not open!";  
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    QMainWindow::showEvent(event);
+    if(!mLoginDialog)
+        showLoginDialog();
+}
+
+void MainWindow::showLoginDialog()
+{
+    mUsername = QString();
+
+    mLoginDialog = new LoginDialog(this);
+    connect(mLoginDialog, &LoginDialog::loginRequest, this, &MainWindow::onLoginRequest);
+    connect(mLoginDialog, &LoginDialog::signupRequest, this, &MainWindow::onSignupRequest);
+
+    int state = mLoginDialog->exec();
+
+    if (state == QDialog::Accepted) {
+        //onLoginRequest();
+        mUsername = mLoginDialog->username();
+        mPass = mLoginDialog->password();
+    }
+    else {
+        qDebug() << "m_loginDialog rejected";
+    }
+
+    delete mLoginDialog;
+    mLoginDialog = nullptr;
 }
 
 void MainWindow::createUI()
@@ -54,21 +70,7 @@ void MainWindow::createUI()
 
 void MainWindow::onSignupRequest()
 {
-    //if(!mSignUpDialog)
-        mSignupDialog = new SignupDialog(this);
 
-    bool state = mSignupDialog->exec();
-
-        if (state)
-        {
-           //QDialog::Accepted
-           qDebug() << "m_signupDialog accepted";
-        }
-        else
-        {
-            //QDialog::Rejected
-            qDebug() << "m_signupDialog rejected";
-        }
 }
 
 void MainWindow::onLoginRequest()
