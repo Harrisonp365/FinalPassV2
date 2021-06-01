@@ -4,8 +4,6 @@
 #include "SignupDialog.h"
 #include <QDialog>
 
-class IOClass;
-
 class LoginDialog : public QDialog
 {
     Q_OBJECT
@@ -35,7 +33,6 @@ private:
     QLineEdit* mUserNameLineEdit;
     QLineEdit* mPasswordLineEdit;
     DbManager* mDb;
-    IOClass*  mIO;
 };
 
 #endif // LOGINDIALOG_H

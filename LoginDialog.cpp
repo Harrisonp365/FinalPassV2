@@ -79,17 +79,16 @@ void LoginDialog::onSignupRequest()
     if(state != QDialog::Accepted)
     {
         qDebug() << "m_signupDialog accepted";
-        delete mSignupDialog;
-        mSignupDialog = nullptr;
     }
     else
     {
         qDebug() << "m_signupDialog rejected";
     }
-       //delete mSignupDialog;
-       //mSignupDialog = nullptr;
 
-       accept();
+        delete mSignupDialog;
+        mSignupDialog = nullptr;
+
+        accept();
 }
 
 void LoginDialog::onLoginRequest()

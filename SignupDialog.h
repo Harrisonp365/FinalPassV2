@@ -3,8 +3,6 @@
 #include "DbManager.h"
 #include <QDialog>
 
-
-class IOClass;
 class QLineEdit;
 
 class SignupDialog : public QDialog
@@ -29,7 +27,6 @@ private:
     QLineEdit* mUserEdit;
     QLineEdit* mPasswordEdit;
     QLineEdit* mPasswordConfirm;
-    IOClass*  mIO;
     DbManager* mDb;
 };
 
