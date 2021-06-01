@@ -81,6 +81,23 @@ bool DbManager::removeUser(const QString &username, const QString &password)
     return success;
 }
 
+bool DbManager::signupUserExists(const QString &username)
+{
+    bool success = false;
+
+    QSqlQuery query;
+    query.prepare("SELECT username FROM users WHERE username = (:username)");
+    query.bindValue(":username", username);
+
+    if (query.exec())
+       if (query.next())
+       {
+          success = true;// it exists
+       }
+
+    return success;
+}
+
 bool DbManager::userExists(const QString &username, const QString &password)
 {
     bool success = false;

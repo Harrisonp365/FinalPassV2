@@ -68,19 +68,22 @@ bool LoginDialog::checkforUser()
 
 void LoginDialog::onSignupRequest()
 {
+    hide(); //Hide the login dialog otherwise it stays behind SignupDialog
     mSignupDialog = new SignupDialog(this);
     int state = mSignupDialog->exec();
 
     if(state != QDialog::Accepted)
     {
         qDebug() << "m_signupDialog accepted";
+        delete mSignupDialog;
+        mSignupDialog = nullptr;
     }
     else
     {
         qDebug() << "m_signupDialog rejected";
     }
-       delete mSignupDialog;
-       mSignupDialog = nullptr;
+       //delete mSignupDialog;
+       //mSignupDialog = nullptr;
 
        accept();
 }
