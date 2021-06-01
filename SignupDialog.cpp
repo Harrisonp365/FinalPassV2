@@ -25,9 +25,14 @@ void SignupDialog::createUI()
         QVBoxLayout *signupWindowLayout = new QVBoxLayout(this);
         QLabel *Header = new QLabel(tr("Please enter your password and username below and confirm"), this);
         mUserEdit = new QLineEdit(this);
+        mUserEdit->setPlaceholderText("Username");
+
         mPasswordEdit = new QLineEdit(this);
+        mPasswordEdit->setPlaceholderText("Password");
         mPasswordEdit->setEchoMode(QLineEdit::Password);
+
         mPasswordConfirm = new QLineEdit(this);
+        mPasswordConfirm->setPlaceholderText("Confirm Password");
         mPasswordConfirm->setEchoMode(QLineEdit::Password);
         QPushButton *checkPassBtn = new QPushButton(tr("&Signup..."), this);
 
@@ -64,7 +69,7 @@ bool SignupDialog::checkPasswords()
     const QString pass1 = mPasswordEdit->text();
     const QString pass2 = mPasswordConfirm->text();
 
-    if(mPasswordEdit->text() == mPasswordConfirm->text())
+    if(pass1 == pass2)
     {
        if(!(pass1 == ""))
        {
@@ -86,10 +91,7 @@ bool SignupDialog::checkUsername()
     QString username = mUserEdit->text();
 
     if(!mDb->usernameExists(username))
-    {
         success = true;
-        qDebug() << "username is valid";
-    }
     else if(username == "")
         QMessageBox::warning(this, "Signup", "Please enter a username");
     else

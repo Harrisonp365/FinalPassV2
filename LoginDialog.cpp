@@ -35,8 +35,12 @@ void LoginDialog::createUI()
     QVBoxLayout *loginWindowLayout = new QVBoxLayout(this);
     QLabel *Header = new QLabel(tr("Welcome to FinalPass, please Login or Signup below"), this);
     mUserNameLineEdit = new QLineEdit(this);
+    mUserNameLineEdit->setPlaceholderText("Username");
+
     mPasswordLineEdit = new QLineEdit(this);
+    mPasswordLineEdit->setPlaceholderText("Password");
     mPasswordLineEdit->setEchoMode(QLineEdit::Password);
+
     QPushButton *loginBtn = new QPushButton("&Login...", this);
     QPushButton *signUpBtn = new QPushButton("&Signup...", this);
 
