@@ -81,7 +81,7 @@ bool DbManager::removeUser(const QString &username, const QString &password)
     return success;
 }
 
-bool DbManager::signupUserExists(const QString &username)
+bool DbManager::usernameExists(const QString &username)
 {
     bool success = false;
 

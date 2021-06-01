@@ -22,8 +22,8 @@ private slots:
 private:
     void userToDb();
     void passwordToDb();
-    bool checkPasswords(const QString& pass1, const QString& pass2);
-    //bool checkUsername();
+    bool checkPasswords();
+    bool checkUsername();
 
 private:
     QLineEdit* mUserEdit;

@@ -43,19 +43,11 @@ void SignupDialog::createUI()
 
 void SignupDialog::confirmSignup()
 {
-    bool confirmed = checkPasswords(mPasswordEdit->text(), mPasswordConfirm->text());
-    QString username = mUserEdit->text();
-    QString password = mPasswordConfirm->text();
-
-    if(confirmed && mDb->userExists(username, password) == false)
+    if(checkPasswords() == true && checkUsername() == true)
     {
         userToDb();
         QMessageBox::information(this, "Signup", "User added to DB");
         //QDialog::Accepted;
-    }
-    else
-    {
-        QMessageBox::warning(this, "Signup", "Passwords do not match");
     }
 }
 
@@ -66,24 +58,43 @@ void SignupDialog::userToDb()
     mDb->addUser(username, password);
 }
 
-bool SignupDialog::checkPasswords(const QString& pass1, const QString& pass2)
+bool SignupDialog::checkPasswords()
 {
-    return pass1 == pass2;
+    bool success = false;
+    const QString pass1 = mPasswordEdit->text();
+    const QString pass2 = mPasswordConfirm->text();
+
+    if(mPasswordEdit->text() == mPasswordConfirm->text())
+    {
+       if(!(pass1 == ""))
+       {
+            success = true;
+            qDebug() << "passwords match";
+       }
+       else
+            QMessageBox::warning(this, "Signup", "Please enter a valid password");
+    }
+    else
+       QMessageBox::warning(this, "Signup", "Passwords do not match");
+
+    return success;
 }
 
-/*bool SignupDialog::checkUsername()
+bool SignupDialog::checkUsername()
 {
-   bool success = false;
-   QString username = mUserEdit->text();
-   if(mUserEdit->text() != "" && mDb->signupUserExists(username))
-   {
-       success = true;
-       qDebug() << "username valid";
-   }
-   else
-   {
-       QMessageBox::warning(this, "Signup", "Please enter a valid username");
-   }
-   return success;
+    bool success = false;
+    QString username = mUserEdit->text();
+
+    if(!mDb->usernameExists(username))
+    {
+        success = true;
+        qDebug() << "username is valid";
+    }
+    else if(username == "")
+        QMessageBox::warning(this, "Signup", "Please enter a username");
+    else
+        QMessageBox::warning(this, "Signup", "Username already exists");
+
+    return success;
 }
-*/
+
