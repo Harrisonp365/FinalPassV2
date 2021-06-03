@@ -52,7 +52,7 @@ void SignupDialog::confirmSignup()
     {
         userToDb();
         QMessageBox::information(this, "Signup", "User added to DB");
-        //send user back to Sign in screen
+        //send user back to login in screen
     }
 }
 
@@ -99,4 +99,3 @@ bool SignupDialog::checkUsername()
 
     return success;
 }
-

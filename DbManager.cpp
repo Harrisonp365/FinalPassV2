@@ -33,17 +33,15 @@ bool DbManager::isOpen() const
 
 bool DbManager::createTable()
 {
-    bool success = false;
-
     QSqlQuery query;
     query.prepare("CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT);");
 
+    bool result = query.exec();
     if(!query.exec())
     {
         qDebug() << "Could not create table, may already exist";
-        success = false;
     }
-    return success;
+    return result;
 }
 
 bool DbManager::addUser(const QString &username, const QString &password)
@@ -130,15 +128,12 @@ void DbManager::listAllUsers() const
 
 bool DbManager::removeAllUsers()
 {
-    bool success = false;
-
     QSqlQuery removeQuery;
     removeQuery.prepare("DELETE FROM users");
 
-    if (removeQuery.exec())
-        success = true;
-    else
+    bool result = removeQuery.exec();
+    if (!removeQuery.exec())
         qDebug() << "remove all users failed: " << removeQuery.lastError();
 
-    return success;
+    return result;
 }
