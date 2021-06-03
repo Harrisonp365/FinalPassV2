@@ -37,7 +37,7 @@ bool DbManager::createTable()
     query.prepare("CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT);");
 
     bool result = query.exec();
-    if(!query.exec())
+    if(!result)
     {
         qDebug() << "Could not create table, may already exist";
     }
@@ -46,24 +46,21 @@ bool DbManager::createTable()
 
 bool DbManager::addUser(const QString &username, const QString &password)
 {
-    bool success = false;
-
     QSqlQuery query;
     query.prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
     query.bindValue(":username", username);
     query.bindValue(":password", password); // Unsure if this is the correct way to do this
 
-    if(query.exec())
-        success = true;
-    else
+    bool result = query.exec();
+    if(!result)
         qDebug() << "addUser() error: " << query.lastError();
 
-    return success;
+    return result;
 }
 
 bool DbManager::removeUser(const QString &username, const QString &password)
 {
-    bool success = false;
+    bool result = false;
 
     if(userExists(username, password))
     {
@@ -71,16 +68,16 @@ bool DbManager::removeUser(const QString &username, const QString &password)
         query.prepare("DELETE FROM users WHERE username = (:username) AND password = (:password)");
         query.bindValue(":username", username);
         query.bindValue(":password", password);
-        success = query.exec();
+        result = query.exec();
 
-        if(!success)
+        if(!result)
             qDebug() << "removeUser() error" << query.lastError();
     }
-    return success;
+    return result;
 }
 
 bool DbManager::usernameExists(const QString &username)
-{
+{/*
     bool success = false;
 
     QSqlQuery query;
@@ -94,11 +91,23 @@ bool DbManager::usernameExists(const QString &username)
        }
 
     return success;
+    */
+
+    QSqlQuery query;
+    query.prepare("SELECT username FROM users WHERE username = (:username)");
+    query.bindValue(":username", username);
+
+    bool result = query.exec();
+        if ((!result) && (!query.next()))
+           qDebug() << "user does not exist";
+
+    return result;
+
 }
 
 bool DbManager::userExists(const QString &username, const QString &password)
 {
-    bool success = false;
+   /* bool success = false;
 
     QSqlQuery query;
     query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
@@ -112,6 +121,19 @@ bool DbManager::userExists(const QString &username, const QString &password)
        }
 
     return success;
+    */
+
+    QSqlQuery query;
+    query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
+    query.bindValue(":username", username);
+    query.bindValue(":password", password);
+
+    bool result = query.exec();
+        if ((!result) && (!query.next()))
+           qDebug() << "user does not exist";
+
+    return result;
+
 }
 
 void DbManager::listAllUsers() const
@@ -132,7 +154,7 @@ bool DbManager::removeAllUsers()
     removeQuery.prepare("DELETE FROM users");
 
     bool result = removeQuery.exec();
-    if (!removeQuery.exec())
+    if (!result)
         qDebug() << "remove all users failed: " << removeQuery.lastError();
 
     return result;
