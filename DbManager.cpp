@@ -77,7 +77,7 @@ bool DbManager::removeUser(const QString &username, const QString &password)
 }
 
 bool DbManager::usernameExists(const QString &username)
-{/*
+{
     bool success = false;
 
     QSqlQuery query;
@@ -91,8 +91,8 @@ bool DbManager::usernameExists(const QString &username)
        }
 
     return success;
-    */
 
+/*
     QSqlQuery query;
     query.prepare("SELECT username FROM users WHERE username = (:username)");
     query.bindValue(":username", username);
@@ -102,12 +102,12 @@ bool DbManager::usernameExists(const QString &username)
            qDebug() << "user does not exist";
 
     return result;
-
+*/
 }
 
 bool DbManager::userExists(const QString &username, const QString &password)
 {
-   /* bool success = false;
+    bool success = false;
 
     QSqlQuery query;
     query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
@@ -121,8 +121,8 @@ bool DbManager::userExists(const QString &username, const QString &password)
        }
 
     return success;
-    */
 
+    /*
     QSqlQuery query;
     query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
     query.bindValue(":username", username);
@@ -133,7 +133,7 @@ bool DbManager::userExists(const QString &username, const QString &password)
            qDebug() << "user does not exist";
 
     return result;
-
+    */
 }
 
 void DbManager::listAllUsers() const
