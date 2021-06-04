@@ -18,10 +18,10 @@ private slots:
     void confirmSignup();
 
 private:
-    void userToDb();
+    bool userToDb(const QString& username, const QString& pass);
     void passwordToDb();
-    bool checkPasswords();
-    bool checkUsername();
+    bool checkPasswords(const QString& pass1, const QString& pass2);
+    bool checkUsername(const QString& username);
 
 private:
     QLineEdit* mUserEdit;

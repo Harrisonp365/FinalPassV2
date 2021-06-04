@@ -48,54 +48,48 @@ void SignupDialog::createUI()
 
 void SignupDialog::confirmSignup()
 {
-    if(checkPasswords() == true && checkUsername() == true)
+    QString username = mUserEdit->text();
+    const QString pass1 = mPasswordConfirm->text();
+    const QString pass2 = mPasswordConfirm->text();
+    if(checkPasswords(pass1, pass2) && checkUsername(username) && userToDb(username, pass1))
     {
-        userToDb();
         QMessageBox::information(this, "Signup", "User added to DB");
-        //send user back to login in screen
+        accept();
     }
 }
 
-void SignupDialog::userToDb()
+bool SignupDialog::userToDb(const QString& username, const QString& password)
 {
-    QString username = mUserEdit->text();
-    QString password = mPasswordConfirm->text();
-    mDb->addUser(username, password);
+    return mDb->addUser(username, password);
 }
 
-bool SignupDialog::checkPasswords()
+bool SignupDialog::checkPasswords(const QString& pass1, const QString& pass2)
 {
-    bool success = false;
-    const QString pass1 = mPasswordEdit->text();
-    const QString pass2 = mPasswordConfirm->text();
+    bool result = false;
 
     if(pass1 == pass2)
     {
        if(!(pass1 == ""))
-       {
-            success = true;
-            qDebug() << "passwords match";
-       }
+            result = true;
        else
             QMessageBox::warning(this, "Signup", "Please enter a valid password");
     }
     else
        QMessageBox::warning(this, "Signup", "Passwords do not match");
 
-    return success;
+    return result;
 }
 
-bool SignupDialog::checkUsername()
+bool SignupDialog::checkUsername(const QString& username)
 {
-    bool success = false;
-    QString username = mUserEdit->text();
+    bool result = false;
 
     if(!mDb->usernameExists(username))
-        success = true;
-    else if(username == "")
+        result = true;
+    else if(username.trimmed().isEmpty())
         QMessageBox::warning(this, "Signup", "Please enter a username");
     else
         QMessageBox::warning(this, "Signup", "Username already exists");
 
-    return success;
+    return result;
 }

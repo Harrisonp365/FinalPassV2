@@ -12,7 +12,7 @@ LoginDialog::LoginDialog(QWidget *parent) :
 
 {
    //setMinimumSize(500,500);
-   createUI();
+    createUI();
 }
 
 LoginDialog::~LoginDialog()
@@ -72,7 +72,6 @@ bool LoginDialog::checkforUser()
 
 void LoginDialog::onSignupRequest()
 {
-    hide(); //Hide the login dialog otherwise it stays behind SignupDialog
     mSignupDialog = new SignupDialog(this);
     int state = mSignupDialog->exec();
 
@@ -85,10 +84,8 @@ void LoginDialog::onSignupRequest()
         qDebug() << "m_signupDialog rejected";
     }
 
-        delete mSignupDialog;
-        mSignupDialog = nullptr;
-
-        accept();
+    delete mSignupDialog;
+    mSignupDialog = nullptr;
 }
 
 void LoginDialog::onLoginRequest()

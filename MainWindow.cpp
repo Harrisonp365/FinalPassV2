@@ -37,8 +37,6 @@ void MainWindow::showEvent(QShowEvent *event)
 
 void MainWindow::showLoginDialog()
 {
-    mUsername = QString();
-
     mLoginDialog = new LoginDialog(this);
     connect(mLoginDialog, &LoginDialog::loginRequest, this, &MainWindow::onLoginRequest);
     connect(mLoginDialog, &LoginDialog::signupRequest, this, &MainWindow::onSignupRequest);
