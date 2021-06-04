@@ -59,15 +59,7 @@ void LoginDialog::createUI()
 
 bool LoginDialog::checkforUser()
 {
-    bool result = false;
-    QString username = mUserNameLineEdit->text();
-    QString password = mPasswordLineEdit->text();
-    qDebug() << username;
-    qDebug() << password;
-    if(mDb->userExists(username, password))
-        result = true;
-
-    return result;
+    return mDb->userExists(username(), password());
 }
 
 void LoginDialog::onSignupRequest()
@@ -90,8 +82,12 @@ void LoginDialog::onSignupRequest()
 
 void LoginDialog::onLoginRequest()
 {  
-    if(checkforUser())
-        accept();
-    else
+    if(!checkforUser())
+    {
         reject();
+        qDebug() << "Mainwindow to be rejected and stay on loginDialog";
+    }
+    else
+        accept();
+
 }

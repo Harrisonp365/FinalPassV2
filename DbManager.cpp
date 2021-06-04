@@ -38,9 +38,8 @@ bool DbManager::createTable()
 
     bool result = query.exec();
     if(!result)
-    {
         qDebug() << "Could not create table, may already exist";
-    }
+
     return result;
 }
 
@@ -78,62 +77,35 @@ bool DbManager::removeUser(const QString &username, const QString &password)
 
 bool DbManager::usernameExists(const QString &username)
 {
-    bool success = false;
-
     QSqlQuery query;
     query.prepare("SELECT username FROM users WHERE username = (:username)");
     query.bindValue(":username", username);
 
+    bool result = false;
     if (query.exec())
+    {
        if (query.next())
-       {
-          success = true;// it exists
-       }
-
-    return success;
-
-/*
-    QSqlQuery query;
-    query.prepare("SELECT username FROM users WHERE username = (:username)");
-    query.bindValue(":username", username);
-
-    bool result = query.exec();
-        if ((!result) && (!query.next()))
-           qDebug() << "user does not exist";
-
+            result = true;// it exists
+    }
     return result;
-*/
 }
 
 bool DbManager::userExists(const QString &username, const QString &password)
 {
-    bool success = false;
-
     QSqlQuery query;
     query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
     query.bindValue(":username", username);
     query.bindValue(":password", password);
 
+    bool result = false;
     if (query.exec())
+    {
        if (query.next())
-       {
-          success = true;// it exists
-       }
-
-    return success;
-
-    /*
-    QSqlQuery query;
-    query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
-    query.bindValue(":username", username);
-    query.bindValue(":password", password);
-
-    bool result = query.exec();
-        if ((!result) && (!query.next()))
-           qDebug() << "user does not exist";
-
+          result = true;// it exists
+        else
+           qDebug() << "User not in DB";
+    }
     return result;
-    */
 }
 
 void DbManager::listAllUsers() const
