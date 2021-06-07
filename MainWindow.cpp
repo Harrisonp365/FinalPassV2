@@ -75,5 +75,6 @@ void MainWindow::onSignupRequest()
 
 void MainWindow::onLoginRequest()
 {
+    mUserId = mDb->
     this->show();
 }

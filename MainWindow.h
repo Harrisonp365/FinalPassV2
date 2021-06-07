@@ -37,5 +37,6 @@ private:
 
     QString mUsername;
     QString mPass;
+    int mUserId;
 };
 #endif // MAINWINDOW_H

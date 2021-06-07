@@ -118,7 +118,23 @@ bool DbManager::userExists(const QString &username, const QString &password)
     }
     return result;
 }
+/*
+int DbManager::getUserId(const QString &username, const QString &password)
+{
+    QSqlQuery query; // SELECT CURRENT_USER?
+    query.prepare("SELECT CURRENT_USER FROM users ");
 
+
+    if (query.exec())
+    {
+       if (query.next())
+          id =
+        else
+           qDebug() << "User not in DB";
+    }
+    return id;
+}
+*/
 void DbManager::listAllUsers() const
 {
     qDebug() << "Usernames from DB: ";
