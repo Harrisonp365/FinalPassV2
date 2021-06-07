@@ -51,7 +51,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Currently stored</string>
+        <string>Currently stored Passwords</string>
        </property>
       </widget>
      </item>

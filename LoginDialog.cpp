@@ -88,6 +88,7 @@ void LoginDialog::onLoginRequest()
         qDebug() << "Mainwindow to be rejected and stay on loginDialog";
     }
     else
+    {
         accept();
-
+    }
 }

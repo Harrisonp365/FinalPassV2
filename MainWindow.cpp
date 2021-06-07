@@ -3,7 +3,7 @@
 #include "LoginDialog.h"
 #include "DbManager.h"
 #include "DbUtils.h"
-#include <QVBoxLayout>
+#include <QBoxLayout>
 #include <QLabel>
 #include <QDebug>
 
@@ -18,7 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Database set up
     if (mDb->isOpen())
+    {
         mDb->createTable();
+        mDb->createPassTable();
+    }
     else
         qDebug() << "Database is not open!";  
 }
@@ -61,6 +64,8 @@ void MainWindow::createUI()
 {
     ui->menubar->addMenu("Menu bar");
     ui->statusbar->showMessage("status bar");
+    //ui->centralWidget->setLayoutDirection(LeftToRight);
+    //ui->centralWidget->addAction()
 }
 
 void MainWindow::onSignupRequest()

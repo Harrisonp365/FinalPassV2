@@ -38,8 +38,19 @@ bool DbManager::createTable()
 
     bool result = query.exec();
     if(!result)
-        qDebug() << "Could not create table, may already exist";
+        qDebug() << "Could not create user table, may already exist";
 
+    return result;
+}
+
+bool DbManager::createPassTable()
+{
+    QSqlQuery query;
+    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, app TEXT, username TEXT, email TEXT, password TEXT, pin INTEGER, seed TEXT);");
+
+    bool result = query.exec();
+    if(!result)
+        qDebug() << "Could not create table, may already exist";
     return result;
 }
 

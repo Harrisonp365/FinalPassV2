@@ -12,6 +12,7 @@ public:
     ~DbManager();
     bool isOpen() const;
     bool createTable();
+    bool createPassTable();
     bool addUser(const QString& username, const QString &password);
     bool removeUser(const QString& username, const QString &password);
     bool userExists(const QString& username, const QString &password);
