@@ -59,12 +59,8 @@ void MainWindow::showLoginDialog()
 
 void MainWindow::createUI()
 {
-    //Create UI here dont use the form
-    setWindowTitle(tr("Main Window"));
-    //QVBoxLayout *mainWindowLayout = new QVBoxLayout(this);
-    //QLabel *Header = new QLabel("How are you passwords looking today?", this);
-    //mainWindowLayout->addWidget(Header, Qt::AlignCenter);
-
+    ui->menubar->addMenu("Menu bar");
+    ui->statusbar->showMessage("status bar");
 }
 
 void MainWindow::onSignupRequest()
