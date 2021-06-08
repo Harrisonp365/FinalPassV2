@@ -43,23 +43,12 @@ bool DbManager::createTable()
     return result;
 }
 
-bool DbManager::createPassTable()
-{
-    QSqlQuery query;
-    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, app TEXT, username TEXT, email TEXT, password TEXT, pin INTEGER, seed TEXT);");
-
-    bool result = query.exec();
-    if(!result)
-        qDebug() << "Could not create table, may already exist";
-    return result;
-}
-
 bool DbManager::addUser(const QString &username, const QString &password)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
     query.bindValue(":username", username);
-    query.bindValue(":password", password); // Unsure if this is the correct way to do this
+    query.bindValue(":password", password);
 
     bool result = query.exec();
     if(!result)
@@ -118,23 +107,7 @@ bool DbManager::userExists(const QString &username, const QString &password)
     }
     return result;
 }
-/*
-int DbManager::getUserId(const QString &username, const QString &password)
-{
-    QSqlQuery query; // SELECT CURRENT_USER?
-    query.prepare("SELECT CURRENT_USER FROM users ");
 
-
-    if (query.exec())
-    {
-       if (query.next())
-          id =
-        else
-           qDebug() << "User not in DB";
-    }
-    return id;
-}
-*/
 void DbManager::listAllUsers() const
 {
     qDebug() << "Usernames from DB: ";
@@ -157,4 +130,87 @@ bool DbManager::removeAllUsers()
         qDebug() << "remove all users failed: " << removeQuery.lastError();
 
     return result;
+}
+
+//Password storage functions
+bool DbManager::createPassTable()
+{
+    QSqlQuery query;
+    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, email TEXT, password TEXT, pin INTEGER, seed TEXT);");
+
+    bool result = query.exec();
+    if(!result)
+        qDebug() << "Could not create table, may already exist";
+    return result;
+}
+
+
+int DbManager::getUserId(const QString &username, const QString &password)
+{
+    //QSqlQuery query; // SELECT CURRENT_USER?
+    //query.prepare("SELECT CURRENT_USER FROM users ");
+
+
+    //if (query.exec())
+    //{
+
+    //}
+    //return id;
+}
+
+
+bool DbManager::addPassword(const int& userId, const QString& site, const QString& username, const QString& email
+                            , const QString& password, const int& pin, const QString& seed)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO passStore (userId, site, username, email, password, pin, seed) VALUES (:userId, :site, :username, :email, :password, :pin, :seed)");
+    query.bindValue(":userId", userId);
+    query.bindValue(":site", site);
+    query.bindValue(":username", username);
+    query.bindValue(":email", email);
+    query.bindValue(":password", password);
+    query.bindValue(":pin", pin);
+    query.bindValue(":seed", seed);
+
+    bool result = query.exec();
+    if(!result)
+        qDebug() << "addPassword() error: " << query.lastError();
+
+    return result;
+
+}
+
+bool DbManager::deleteEntry(const int &userId, const QString &site)
+{
+    bool result = false;
+
+    if(entryExists(userId, site))
+    {
+        QSqlQuery query;
+        query.prepare("DELETE FROM passStore WHERE userId = (:userId) AND site = (:site)");
+        query.bindValue(":userId", userId);
+        query.bindValue(":site", site);
+        result = query.exec();
+
+        if(!result)
+            qDebug() << "deleteEntry() error" << query.lastError();
+    }
+    return result;
+}
+
+void DbManager::listAllPasswords() const
+{
+    qDebug() << "users from password DB from DB: ";
+    QSqlQuery query("SELECT * FROM passStore");
+    int userId = query.record().indexOf("userId");
+    while(query.next())
+    {
+        QString user = query.value(userId).toString();
+        qDebug() << "=> " << user;
+    }
+}
+
+bool DbManager::entryExists(const int &userId, const QString &site)
+{
+    // Find if an entery exists using the current user ID and the website of the entry they are looking for
 }
