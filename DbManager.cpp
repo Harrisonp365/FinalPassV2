@@ -136,14 +136,13 @@ bool DbManager::removeAllUsers()
 bool DbManager::createPassTable()
 {
     QSqlQuery query;
-    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, email TEXT, password TEXT, pin INTEGER, seed TEXT);");
+    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, password TEXT, pin INTEGER, seed TEXT);");
 
     bool result = query.exec();
     if(!result)
         qDebug() << "Could not create table, may already exist";
     return result;
 }
-
 
 int DbManager::getUserId(const QString &username, const QString &password)
 {
@@ -158,16 +157,14 @@ int DbManager::getUserId(const QString &username, const QString &password)
     //return id;
 }
 
-
-bool DbManager::addPassword(const int& userId, const QString& site, const QString& username, const QString& email
+bool DbManager::addEntry(const int& userId, const QString& site, const QString& username
                             , const QString& password, const int& pin, const QString& seed)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO passStore (userId, site, username, email, password, pin, seed) VALUES (:userId, :site, :username, :email, :password, :pin, :seed)");
+    query.prepare("INSERT INTO passStore (userId, site, username, password, pin, seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
     query.bindValue(":userId", userId);
     query.bindValue(":site", site);
     query.bindValue(":username", username);
-    query.bindValue(":email", email);
     query.bindValue(":password", password);
     query.bindValue(":pin", pin);
     query.bindValue(":seed", seed);
@@ -198,7 +195,7 @@ bool DbManager::deleteEntry(const int &userId, const QString &site)
     return result;
 }
 
-void DbManager::listAllPasswords() const
+void DbManager::listAllEntries() const
 {
     qDebug() << "users from password DB from DB: ";
     QSqlQuery query("SELECT * FROM passStore");
