@@ -93,6 +93,11 @@ bool DbManager::userExists(const QString &username, const QString &password)
     return result;
 }
 
+bool DbManager::userNameExist(const QString &username)
+{
+    return (getUserId(username) >= 1);
+}
+
 void DbManager::listAllUsers() const
 {
     qDebug() << "Usernames from DB: ";
@@ -131,15 +136,19 @@ bool DbManager::createPassTable()
 
 int DbManager::getUserId(const QString &username)
 {
-    //QSqlQuery query; // SELECT CURRENT_USER?
-    //query.prepare("SELECT CURRENT_USER FROM users ");
+    QSqlQuery query;
+    query.prepare("SELECT id FROM users WHERE username = (:username)");
+    query.bindValue(":username", username);
 
-
-    //if (query.exec())
-    //{
-
-    //}
-    //return id;
+    int id = -1;
+    if(query.exec())
+    {
+        if(query.next())
+        {
+            id = query.value(0).toInt();
+        }
+    }
+    return id >= 0;
 }
 
 bool DbManager::addEntry(const int& userId, const QString& site, const QString& username

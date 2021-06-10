@@ -11,18 +11,21 @@ public:
 
     ~DbManager();
     bool isOpen() const;
-    bool createTable();
 
     //Signin/Login functions below
     bool addUser(const QString& username, const QString& password);
     bool removeUser(const QString& username, const QString& password);
     bool userExists(const QString& username, const QString& password);
-    bool usernameExists(const QString& username);
+    bool userNameExist(const QString& username);
     void listAllUsers() const;
     bool removeAllUsers();
-    //Password storage functions below
+
+    int getUserId(const QString& username);
+
+private:
+
+    bool createTable();
     bool createPassTable();
-    int getUserId(const QString& username, const QString& password);
     bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
     bool deleteEntry(const int& userId, const  QString& site);
     void listAllEntries() const ;
