@@ -75,21 +75,6 @@ bool DbManager::removeUser(const QString &username, const QString &password)
     return result;
 }
 
-bool DbManager::usernameExists(const QString &username)
-{
-    QSqlQuery query;
-    query.prepare("SELECT username FROM users WHERE username = (:username)");
-    query.bindValue(":username", username);
-
-    bool result = false;
-    if (query.exec())
-    {
-       if (query.next())
-            result = true;// it exists
-    }
-    return result;
-}
-
 bool DbManager::userExists(const QString &username, const QString &password)
 {
     QSqlQuery query;
@@ -144,7 +129,7 @@ bool DbManager::createPassTable()
     return result;
 }
 
-int DbManager::getUserId(const QString &username, const QString &password)
+int DbManager::getUserId(const QString &username)
 {
     //QSqlQuery query; // SELECT CURRENT_USER?
     //query.prepare("SELECT CURRENT_USER FROM users ");
