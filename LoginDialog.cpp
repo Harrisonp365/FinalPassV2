@@ -85,12 +85,7 @@ void LoginDialog::onLoginRequest()
     int userId = mDb->getUserId(username());
     qDebug() << userId;
     if(userId < 1)
-    {
-        qDebug() << "Mainwindow to be rejected and stay on loginDialog";
         QMessageBox::warning(this, "login", "Please enter valid user details");
-    }
     else
-    {
         accept();
-    }
 }
