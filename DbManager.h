@@ -11,16 +11,17 @@ public:
 
     ~DbManager();
     bool isOpen() const;
+    void initTables();
 
     //Signin/Login functions below
     bool addUser(const QString& username, const QString& password);
     bool removeUser(const QString& username, const QString& password);
     bool userExists(const QString& username, const QString& password);
-    bool userNameExist(const QString& username);
+    bool userNameExists(const QString& username);
     void listAllUsers() const;
     bool removeAllUsers();
 
-    int getUserId(const QString& username);
+    int getUserId(const QString& username) const;
 
 private:
 

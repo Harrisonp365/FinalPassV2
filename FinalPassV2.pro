@@ -23,7 +23,7 @@ HEADERS += \
     SignupDialog.h
 
 FORMS += \
-    MainWindow.ui \
+    MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

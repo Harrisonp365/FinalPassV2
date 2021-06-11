@@ -4,6 +4,7 @@
 #include "DbManager.h"
 #include "DbUtils.h"
 #include <QBoxLayout>
+#include <QAction>
 #include <QLabel>
 #include <QDebug>
 
@@ -19,8 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Database set up
     if (mDb->isOpen())
     {
-        mDb->createTable();
-        mDb->createPassTable();
+        mDb->initTables();
     }
     else
         qDebug() << "Database is not open!";  
@@ -64,6 +64,7 @@ void MainWindow::createUI()
 {
     ui->menubar->addMenu("Menu bar");
     ui->statusbar->showMessage("status bar");
+    //ui-
     //ui->centralWidget->setLayoutDirection(LeftToRight);
     //ui->centralWidget->addAction()
 }

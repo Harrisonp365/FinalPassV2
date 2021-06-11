@@ -84,7 +84,7 @@ bool SignupDialog::checkUsername(const QString& username)
 {
     bool result = false;
 
-    if(!mDb->usernameExists(username))
+    if(!mDb->userNameExists(username))
         result = true;
     else if(username.trimmed().isEmpty())
         QMessageBox::warning(this, "Signup", "Please enter a username");

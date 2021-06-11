@@ -31,6 +31,12 @@ bool DbManager::isOpen() const
     return mDb.isOpen();
 }
 
+void DbManager::initTables()
+{
+    createTable();
+    createPassTable();
+}
+
 bool DbManager::createTable()
 {
     QSqlQuery query;
@@ -93,7 +99,7 @@ bool DbManager::userExists(const QString &username, const QString &password)
     return result;
 }
 
-bool DbManager::userNameExist(const QString &username)
+bool DbManager::userNameExists(const QString &username)
 {
     return (getUserId(username) >= 1);
 }
@@ -134,7 +140,7 @@ bool DbManager::createPassTable()
     return result;
 }
 
-int DbManager::getUserId(const QString &username)
+int DbManager::getUserId(const QString &username) const
 {
     QSqlQuery query;
     query.prepare("SELECT id FROM users WHERE username = (:username)");
