@@ -5,16 +5,15 @@
 #include "DbManager.h"
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
+
 namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
 private:
@@ -32,13 +31,14 @@ protected:
     void showEvent(QShowEvent* event) override;
 
 private:
-    Ui::MainWindow *ui;
-    SignupDialog *mSignupDialog;
-    LoginDialog *mLoginDialog = nullptr;
+    Ui::MainWindow* ui;
+    SignupDialog* mSignupDialog;
+    LoginDialog* mLoginDialog = nullptr;
     DbManager* mDb;
 
     QString mUsername;
     QString mPass;
     int mUserId;
 };
+
 #endif // MAINWINDOW_H

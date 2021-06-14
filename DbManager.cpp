@@ -209,5 +209,8 @@ void DbManager::listAllEntries() const
 
 bool DbManager::entryExists(const int &userId, const QString &site)
 {
+    Q_UNUSED(userId);
+    Q_UNUSED(site);
     // Find if an entery exists using the current user ID and the website of the entry they are looking for
+    return false;
 }
