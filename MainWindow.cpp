@@ -62,11 +62,19 @@ void MainWindow::showLoginDialog()
 
 void MainWindow::createUI()
 {
+    //setCentralWidget(centralWidget());
+
     ui->menubar->addMenu("Menu bar");
     ui->statusbar->showMessage("status bar");
-    //ui-
+
+    //ui->centralWidget->
     //ui->centralWidget->setLayoutDirection(LeftToRight);
     //ui->centralWidget->addAction()
+}
+
+void MainWindow::createConnections()
+{
+    //connect(ui->, SIGNAL(clicked()), this, SLOT());
 }
 
 void MainWindow::onSignupRequest()
@@ -79,3 +87,6 @@ void MainWindow::onLoginRequest()
     //mUserId = mDb->
     this->show();
 }
+
+
+

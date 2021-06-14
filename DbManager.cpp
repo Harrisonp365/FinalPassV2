@@ -33,11 +33,11 @@ bool DbManager::isOpen() const
 
 void DbManager::initTables()
 {
-    createTable();
+    createUserTable();
     createPassTable();
 }
 
-bool DbManager::createTable()
+bool DbManager::createUserTable()
 {
     QSqlQuery query;
     query.prepare("CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT);");

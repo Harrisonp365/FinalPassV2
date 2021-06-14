@@ -19,12 +19,14 @@ public:
 
 private:
     void createUI();
+    void createConnections();
     void showLoginDialog();
+    void displayEntries();
+    void saveEntry();
 
 private slots:
     void onSignupRequest();
     void onLoginRequest();
-
 
 protected:
     void showEvent(QShowEvent* event) override;
