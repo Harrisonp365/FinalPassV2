@@ -16,6 +16,8 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+signals:
+    void onSaveEntry();
 private:
     void createUI();
     void createConnections();

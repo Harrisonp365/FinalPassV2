@@ -173,6 +173,7 @@ bool DbManager::addEntry(const int& userId, const QString& site, const QString& 
     if(!result)
         qDebug() << "addPassword() error: " << query.lastError();
 
+    qDebug() << "Entry added";
     return result;
 
 }
