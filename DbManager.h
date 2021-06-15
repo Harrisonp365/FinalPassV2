@@ -19,8 +19,9 @@ public:
     bool userNameExists(const QString& username);
     void listAllUsers() const;
     bool removeAllUsers();
-
     int getUserId(const QString& username) const;
+    bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
+
 
 private:
 
@@ -33,7 +34,6 @@ private:
 private:
     DbManager(const QString& path);
 private slots:
-    bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
 
 private:
     QSqlDatabase mDb;

@@ -16,18 +16,17 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-signals:
-    void onSaveEntry();
 private:
     void createUI();
     void createConnections();
     void showLoginDialog();
     void displayEntries();
-    void saveEntry();
 
 private slots:
     void onSignupRequest();
     void onLoginRequest();
+
+    void on_saveBtn_clicked();
 
 protected:
     void showEvent(QShowEvent* event) override;

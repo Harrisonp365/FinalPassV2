@@ -65,11 +65,6 @@ void MainWindow::createUI()
     setCentralWidget(centralWidget());
 }
 
-void MainWindow::createConnections()
-{
-    connect(ui->saveBtn, SIGNAL(clicked()), this, SLOT(mDb->addEntry()));
-}
-
 void MainWindow::onSignupRequest()
 {
 
@@ -80,4 +75,11 @@ void MainWindow::onLoginRequest()
     this->show();
 }
 
+
+
+void MainWindow::on_saveBtn_clicked()
+{
+    qDebug() << "save button clicked";
+    mDb->addEntry();
+}
 
