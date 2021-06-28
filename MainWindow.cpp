@@ -79,3 +79,11 @@ void MainWindow::onLoginRequest()
     //mUserId = mDb->
     this->show();
 }
+
+void MainWindow::on_saveBtn_clicked()
+{
+    // Need to get current user id here to make variable to use below
+    qDebug() << "save button clicked";
+    mDb->addEntry(1, "current user id", "test", "test", 2, "test");
+}
+
