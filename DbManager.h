@@ -13,27 +13,27 @@ public:
     bool isOpen() const;
     void initTables();
 
-    //Signin/Login functions below
     bool addUser(const QString& username, const QString& password);
     bool removeUser(const QString& username, const QString& password);
     bool userExists(const QString& username, const QString& password);
     bool userNameExists(const QString& username);
     void listAllUsers() const;
     bool removeAllUsers();
-
     int getUserId(const QString& username) const;
+    bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
+
 
 private:
 
-    bool createTable();
-    bool createPassTable();
-    bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
+    bool createUserTable();
+    bool createPassTable(); 
     bool deleteEntry(const int& userId, const  QString& site);
     void listAllEntries() const ;
     bool entryExists(const int& userId, const QString& site);
 
 private:
     DbManager(const QString& path);
+private slots:
 
 private:
     QSqlDatabase mDb;

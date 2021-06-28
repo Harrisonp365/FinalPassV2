@@ -33,11 +33,11 @@ bool DbManager::isOpen() const
 
 void DbManager::initTables()
 {
-    createTable();
+    createUserTable();
     createPassTable();
 }
 
-bool DbManager::createTable()
+bool DbManager::createUserTable()
 {
     QSqlQuery query;
     query.prepare("CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT);");
@@ -173,6 +173,7 @@ bool DbManager::addEntry(const int& userId, const QString& site, const QString& 
     if(!result)
         qDebug() << "addPassword() error: " << query.lastError();
 
+    qDebug() << "Entry added";
     return result;
 
 }
@@ -209,5 +210,8 @@ void DbManager::listAllEntries() const
 
 bool DbManager::entryExists(const int &userId, const QString &site)
 {
+    Q_UNUSED(userId);
+    Q_UNUSED(site);
     // Find if an entery exists using the current user ID and the website of the entry they are looking for
+    return false;
 }
