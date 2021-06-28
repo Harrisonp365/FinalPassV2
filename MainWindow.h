@@ -5,9 +5,9 @@
 #include "DbManager.h"
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+//QT_BEGIN_NAMESPACE
+//namespace Ui { class MainWindow; }
+//QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -26,11 +26,13 @@ private slots:
     void onLoginRequest();
 
 
+    void on_saveButton_clicked();
+
 protected:
     void showEvent(QShowEvent* event) override;
 
 private:
-    Ui::MainWindow *ui;
+    //Ui::MainWindow *ui;
     SignupDialog *mSignupDialog;
     LoginDialog *mLoginDialog = nullptr;
     DbManager* mDb;

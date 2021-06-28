@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "ui_MainWindow.h"
+//#include "ui_MainWindow.h"
 #include "LoginDialog.h"
 #include "DbManager.h"
 #include "DbUtils.h"
@@ -80,7 +80,7 @@ void MainWindow::onLoginRequest()
     this->show();
 }
 
-void MainWindow::on_saveBtn_clicked()
+void MainWindow::on_saveButton_clicked()
 {
     // Need to get current user id here to make variable to use below
     qDebug() << "save button clicked";

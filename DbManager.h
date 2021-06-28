@@ -20,14 +20,13 @@ public:
     bool userNameExists(const QString& username);
     void listAllUsers() const;
     bool removeAllUsers();
-
+    bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
     int getUserId(const QString& username) const;
 
 private:
 
     bool createTable();
     bool createPassTable();
-    bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
     bool deleteEntry(const int& userId, const  QString& site);
     void listAllEntries() const ;
     bool entryExists(const int& userId, const QString& site);
