@@ -8,11 +8,11 @@
 #include <QLabel>
 #include <QDebug>
 
-MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow{ parent }
-    , ui{ new Ui::MainWindow }
-    , mLoginDialog{ nullptr }
-    , mDb{ DbManager::instance() }
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow{parent}
+    , ui{new Ui::MainWindow}
+    , mLoginDialog{nullptr}
+    , mDb{DbManager::instance()}
 {
     ui->setupUi(this);
     createUI();
@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget* parent)
         mDb->initTables();
     }
     else
-        qDebug() << "Database is not open!";
+        qDebug() << "Database is not open!";  
 }
 
 MainWindow::~MainWindow()
@@ -31,10 +31,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::showEvent(QShowEvent* event)
+void MainWindow::showEvent(QShowEvent *event)
 {
     QMainWindow::showEvent(event);
-    if (!mLoginDialog)
+    if(!mLoginDialog)
         showLoginDialog();
 }
 
@@ -62,7 +62,11 @@ void MainWindow::showLoginDialog()
 
 void MainWindow::createUI()
 {
-    setCentralWidget(centralWidget());
+    ui->menubar->addMenu("Menu bar");
+    ui->statusbar->showMessage("status bar");
+    //ui-
+    //ui->centralWidget->setLayoutDirection(LeftToRight);
+    //ui->centralWidget->addAction()
 }
 
 void MainWindow::onSignupRequest()
@@ -72,14 +76,6 @@ void MainWindow::onSignupRequest()
 
 void MainWindow::onLoginRequest()
 {
+    //mUserId = mDb->
     this->show();
 }
-
-
-
-void MainWindow::on_saveBtn_clicked()
-{
-    qDebug() << "save button clicked";
-    mDb->addEntry(1, "test", "test", "test", 2, "test");
-}
-
