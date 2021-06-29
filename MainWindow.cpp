@@ -85,9 +85,11 @@ void MainWindow::on_saveButton_clicked()
 
   //  const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed
    int UserId = mDb->getUserId(mUsername);
-   qDebug() << UserId; //regardless of user user Id is still 1
-   qDebug() << mUsername;
+   QString user = ui->usernameLineEdit->text();
+   QString site = ui->websiteLineEdit->text();
+   QString pass = ui->passwordLineEdit->text();
+   QString seed = ui->seedEdit->toPlainText();
 
-    mDb->addEntry(UserId, "site", "username", "pass", 2, "seed");
+    mDb->addEntry(UserId, site, user, pass, 2, seed);
 }
 
