@@ -11,7 +11,6 @@ LoginDialog::LoginDialog(QWidget *parent) :
    ,mDb{DbManager::instance()}
 
 {
-   //setMinimumSize(500,500);
     createUI();
 }
 
@@ -47,7 +46,7 @@ void LoginDialog::createUI()
     loginWindowLayout->addWidget(Header, Qt::AlignHCenter);
     loginWindowLayout->addWidget(mUserNameLineEdit, Qt::AlignCenter);
     loginWindowLayout->addWidget(mPasswordLineEdit, Qt::AlignHCenter);
-    loginWindowLayout->addWidget(loginBtn, Qt::AlignLeft); // maybe group box these buttons to align next to one another
+    loginWindowLayout->addWidget(loginBtn, Qt::AlignLeft);
     loginWindowLayout->addWidget(signUpBtn, Qt::AlignRight);
 
     connect(mPasswordLineEdit, SIGNAL(returnPressed()), this, SLOT(onLoginRequest()));

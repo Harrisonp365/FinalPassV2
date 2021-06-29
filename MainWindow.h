@@ -20,6 +20,7 @@ public:
 private:
     void createUI();
     void showLoginDialog();
+    void richTextToText();
 
 private slots:
     void onSignupRequest();

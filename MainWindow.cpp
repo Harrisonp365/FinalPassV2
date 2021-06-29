@@ -60,13 +60,15 @@ void MainWindow::showLoginDialog()
     mLoginDialog = nullptr;
 }
 
+void MainWindow::richTextToText()
+{
+    // Will use this to help convert and seephrase edit items to text in order to fill DB correctly
+}
+
 void MainWindow::createUI()
 {
     ui->menubar->addMenu("Menu bar");
     ui->statusbar->showMessage("status bar");
-    //ui-
-    //ui->centralWidget->setLayoutDirection(LeftToRight);
-    //ui->centralWidget->addAction()
 }
 
 void MainWindow::onSignupRequest()
@@ -76,20 +78,18 @@ void MainWindow::onSignupRequest()
 
 void MainWindow::onLoginRequest()
 {
-    //mUserId = mDb->
     this->show();
 }
 
 void MainWindow::on_saveButton_clicked()
 {
+    int userId = mDb->getUserId(mUsername);
+    QString user = ui->usernameLineEdit->text();
+    QString site = ui->websiteLineEdit->text();
+    QString pass = ui->passwordLineEdit->text();
+    int pin = ui->pinLineEdit->text().toInt();
+    QString seed = ui->seedEdit->toPlainText();
 
-  //  const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed
-   int UserId = mDb->getUserId(mUsername);
-   QString user = ui->usernameLineEdit->text();
-   QString site = ui->websiteLineEdit->text();
-   QString pass = ui->passwordLineEdit->text();
-   QString seed = ui->seedEdit->toPlainText();
-
-    mDb->addEntry(UserId, site, user, pass, 2, seed);
+    mDb->addEntry(userId, site, user, pass, pin, seed);
 }
 
