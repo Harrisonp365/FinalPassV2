@@ -154,7 +154,7 @@ int DbManager::getUserId(const QString &username) const
             id = query.value(0).toInt();
         }
     }
-    return id >= 0;
+    return id; //>= 0; // Unsure why this always made user ID 1
 }
 
 bool DbManager::addEntry(const int& userId, const QString& site, const QString& username

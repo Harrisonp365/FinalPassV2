@@ -80,15 +80,14 @@ void MainWindow::onLoginRequest()
     this->show();
 }
 
-
-
-
-
 void MainWindow::on_saveButton_clicked()
 {
 
-    // Need to get current user id here to make variable to use below
-    qDebug() << "save button clicked";
-    mDb->addEntry(1, "current user id", "test", "test", 2, "test");
+  //  const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed
+   int UserId = mDb->getUserId(mUsername);
+   qDebug() << UserId; //regardless of user user Id is still 1
+   qDebug() << mUsername;
+
+    mDb->addEntry(UserId, "site", "username", "pass", 2, "seed");
 }
 
