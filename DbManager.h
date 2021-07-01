@@ -4,6 +4,16 @@
 #include <QString>
 #include <QtSql>
 
+struct SiteData
+{
+    int id;
+    QString site;
+    QString username;
+    QString pass;
+    QString pin;
+    QString seed;
+};
+
 class DbManager
 {
 public:
@@ -20,8 +30,16 @@ public:
     bool userNameExists(const QString& username);
     void listAllUsers() const;
     bool removeAllUsers();
+    //Password storages functions
     bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
+    void editEntry(int passId, const SiteData& data);
     int getUserId(const QString& username) const;
+    bool siteDataEntryExist(const QString& site);
+    QList<SiteData> listAllSiteInfoForUserId(int userId) const;
+
+    QList<int> listAllPassIds() const;
+    QList<int> listAllPassIdsForUserId(int userId) const;
+    SiteData siteDataForPassId(int passId) const;
 
 private:
 
