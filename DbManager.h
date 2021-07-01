@@ -4,6 +4,7 @@
 #include <QString>
 #include <QtSql>
 
+
 struct SiteData
 {
     int id;
@@ -13,6 +14,7 @@ struct SiteData
     QString pin;
     QString seed;
 };
+
 
 class DbManager
 {
@@ -30,23 +32,27 @@ public:
     bool userNameExists(const QString& username);
     void listAllUsers() const;
     bool removeAllUsers();
-    //Password storages functions
-    bool addEntry(const int& userId, const QString& site, const QString& username, const QString& password, const int& pin, const QString& seed);
+
     void editEntry(int passId, const SiteData& data);
-    int getUserId(const QString& username) const;
+    int addEntry(int userId, const QString& site, const QString& username, const QString& password, int pin, const QString& seed);
     bool siteDataEntryExist(const QString& site);
     QList<SiteData> listAllSiteInfoForUserId(int userId) const;
+
+    // Use SiteData.
+    // bool addEntry(int userId, const QString& site, const QString& username, const QString& password, int pin, const QString& seed)
+
+    int getUserId(const QString& username) const;
 
     QList<int> listAllPassIds() const;
     QList<int> listAllPassIdsForUserId(int userId) const;
     SiteData siteDataForPassId(int passId) const;
 
 private:
-
-    bool createTable();
+    bool createUsersTable();
     bool createPassTable();
     bool deleteEntry(const int& userId, const  QString& site);
-    void listAllEntries() const ;
+    void listAllEntries() const;
+
     bool entryExists(const int& userId, const QString& site);
 
 private:

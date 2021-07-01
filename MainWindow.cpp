@@ -84,12 +84,22 @@ void MainWindow::onLoginRequest()
 void MainWindow::on_saveButton_clicked()
 {
     int userId = mDb->getUserId(mUsername);
-    QString user = ui->usernameLineEdit->text();
-    QString site = ui->websiteLineEdit->text();
-    QString pass = ui->passwordLineEdit->text();
-    int pin = ui->pinLineEdit->text().toInt();
-    QString seed = ui->seedEdit->toPlainText();
+       QString user = ui->usernameLineEdit->text();
+       QString site = ui->websiteLineEdit->text();
+       QString pass = ui->passwordLineEdit->text();
+       int pin = ui->pinLineEdit->text().toInt();
+       QString seed = ui->seedEdit->toPlainText();
 
-    mDb->addEntry(userId, site, user, pass, pin, seed);
+       int passInfoDbId = mDb->addEntry(userId, site, user, pass, pin, seed);
+
+       QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
+
+       SiteData data = mDb->siteDataForPassId(passInfoDbId);
+
+       ui->usernameLineEdit->setText(data.username + "Back");
+       ui->websiteLineEdit->setText(data.site + "Back");
+       ui->passwordLineEdit->setText(data.pass + "Back");
+       ui->pinLineEdit->setText(data.pin + "Back");
+       ui->seedEdit->setPlainText(data.seed + "Back");
 }
 
