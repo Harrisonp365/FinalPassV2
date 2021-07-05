@@ -8,11 +8,11 @@
 struct SiteData
 {
     int id;
-    QString site;
-    QString username;
-    QString pass;
-    QString pin;
-    QString seed;
+    QString site = "ds";
+    QString username= "ds";
+    QString pass= "ds";
+    QString pin= "ds";
+    QString seed= "ds";
 };
 
 
@@ -34,18 +34,16 @@ public:
     bool removeAllUsers();
 
     void editEntry(int passId, const SiteData& data);
-    int addEntry(int userId, const QString& site, const QString& username, const QString& password, int pin, const QString& seed);
+    int addEntry(int userId, SiteData& data);
     bool siteDataEntryExist(const QString& site);
     QList<SiteData> listAllSiteInfoForUserId(int userId) const;
-
-    // Use SiteData.
-    // bool addEntry(int userId, const QString& site, const QString& username, const QString& password, int pin, const QString& seed)
 
     int getUserId(const QString& username) const;
 
     QList<int> listAllPassIds() const;
     QList<int> listAllPassIdsForUserId(int userId) const;
     SiteData siteDataForPassId(int passId) const;
+    bool entryExists(int userId, const QString& site);
 
 private:
     bool createUsersTable();
@@ -53,7 +51,7 @@ private:
     bool deleteEntry(const int& userId, const  QString& site);
     void listAllEntries() const;
 
-    bool entryExists(const int& userId, const QString& site);
+
 
 private:
     DbManager(const QString& path);

@@ -129,6 +129,12 @@ bool DbManager::removeAllUsers()
 }
 
 //Password storage functions
+void DbManager::editEntry(int passId, const SiteData &data)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO passStore (userId, data.site, data.username, data.password, data.pin, data.seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
+}
+
 bool DbManager::createPassTable()
 {
     QSqlQuery query;
@@ -154,30 +160,31 @@ int DbManager::getUserId(const QString &username) const
             id = query.value(0).toInt();
         }
     }
-    return id; //>= 0; // Unsure why this always made user ID 1
+    return id;
 }
 
-int DbManager::addEntry(int userId, const QString& site, const QString& username
-                            , const QString& password, int pin, const QString& seed)
+int addEntry(int userId, SiteData& data)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO passStore (userId, site, username, password, pin, seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
+    query.prepare("INSERT INTO passStore (userId, data.site, data.username, data.password, data.pin, data.seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
     query.bindValue(":userId", userId);
-    query.bindValue(":site", site);
-    query.bindValue(":username", username);
-    query.bindValue(":password", password);
-    query.bindValue(":pin", pin);
-    query.bindValue(":seed", seed);
+    query.bindValue(":site", data.site);
+    query.bindValue(":username", data.username);
+    query.bindValue(":password", data.pass);
+    query.bindValue(":pin", data.pin);
+    query.bindValue(":seed", data.seed);
 
     bool result = query.exec();
     int id = -1;
     if (result)
+    {
         id = query.lastInsertId().toInt();
+    qDebug() << id;
+    }
     else
         qDebug() << "addPassword() error: " << query.lastError();
 
     return id;
-
 }
 
 QList<int> DbManager::listAllPassIds() const
@@ -223,7 +230,6 @@ SiteData DbManager::siteDataForPassId(int passId) const
     query.prepare("SELECT site, username, password, pin, seed FROM passStore WHERE id = :passId");
     query.bindValue(":passId", passId);
 
-    //int id = query.record().indexOf("id");
     if (!query.exec())
         return {};
 
@@ -273,8 +279,20 @@ void DbManager::listAllEntries() const
     }
 }
 
-bool DbManager::entryExists(const int &userId, const QString &site)
+bool DbManager::entryExists(int userId, const QString &site)
 {
-    // Find if an entery exists using the current user ID and the website of the entry they are looking for
-    return false;
+    QSqlQuery query;
+    query.prepare("SELECT userId,site FROM passStore WHERE userId = (:userId) AND site = (:site)");
+    query.bindValue(":userId", userId);
+    query.bindValue(":site", site);
+
+    bool result = false;
+    if (query.exec())
+    {
+       if (query.next())
+          result = true;
+        else
+           qDebug() << "Entry not in DB";
+    }
+    return result;
 }
