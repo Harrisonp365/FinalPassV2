@@ -5,7 +5,7 @@
 #include <QtSql>
 
 
-struct SiteData
+struct EntryData
 {
     int id;
     QString site;
@@ -34,25 +34,23 @@ public:
     bool removeAllUsers();
 
     //Edit Password storage entries below
-    void editEntry(int passId, SiteData& data);
-    int addEntry(int userId, SiteData& data);
-    bool siteDataEntryExist(const QString& site);
-    QList<SiteData> listAllSiteInfoForUserId(int userId) const;
+    bool editEntry(int passId, EntryData& data);
+    int addEntry(int userId, EntryData& data);
+    bool EntryDataEntryExist(const QString& site);
+    QList<EntryData> listAllSiteInfoForUserId(int userId) const;
 
     int getUserId(const QString& username) const;
 
     QList<int> listAllPassIds() const;
     QList<int> listAllPassIdsForUserId(int userId) const;
-    SiteData siteDataForPassId(int passId) const;
+    EntryData EntryDataForPassId(int passId) const;
     bool entryExists(int userId, const QString site);
 
 private:
     bool createUsersTable();
     bool createPassTable();
-    bool deleteEntry(int userId, SiteData& data);
+    bool deleteEntry(int userId, EntryData& data);
     void listAllEntries() const;
-
-
 
 private:
     DbManager(const QString& path);

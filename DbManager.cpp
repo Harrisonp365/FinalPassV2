@@ -128,36 +128,6 @@ bool DbManager::removeAllUsers()
     return result;
 }
 
-//Password storage functions
-bool DbManager::editEntry(int passId, SiteData &data)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO passStore (data.site, data.username, data.password, data.pin, data.seed) VALUES (:site, :username, :password, :pin, :seed)");
-    query.bindValue(":site", data.site);
-    query.bindValue(":username", data.username);
-    query.bindValue(":password", data.pass);
-    query.bindValue(":pin", data.pin);
-    query.bindValue(":seed", data.seed);
-
-    bool result = query.exec();
-    if(!result)
-        qDebug() << "Could not create table, may already exist";
-    else
-        qDebug() << "Entry updated";
-    return result;
-}
-
-bool DbManager::createPassTable()
-{
-    QSqlQuery query;
-    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, password TEXT, pin INTEGER, seed TEXT);");
-
-    bool result = query.exec();
-    if(!result)
-        qDebug() << "Could not create table, may already exist";
-    return result;
-}
-
 int DbManager::getUserId(const QString &username) const
 {
     QSqlQuery query;
@@ -175,10 +145,23 @@ int DbManager::getUserId(const QString &username) const
     return id;
 }
 
-int addEntry(int userId, SiteData& data)
+//Password storage functions
+
+bool DbManager::createPassTable()
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO passStore (userId, data.site, data.username, data.password, data.pin, data.seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
+    query.prepare("CREATE TABLE PasswordEntries(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, password TEXT, pin INTEGER, seed TEXT);");
+
+    bool result = query.exec();
+    if(!result)
+        qDebug() << "Could not create table, may already exist";
+    return result;
+}
+
+int addEntry(int userId, EntryData& data)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO PasswordEntries (userId, data.site, data.username, data.password, data.pin, data.seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
     query.bindValue(":userId", userId);
     query.bindValue(":site", data.site);
     query.bindValue(":username", data.username);
@@ -199,10 +182,30 @@ int addEntry(int userId, SiteData& data)
     return id;
 }
 
+bool DbManager::editEntry(int passId, EntryData &data)
+{
+    // I don't think the below query is correct but I can't seem to find the right information on it
+    QSqlQuery query;
+    query.prepare("UPDATE PasswordEntries (data.site, data.username, data.password, data.pin, data.seed) VALUES (:site, :username, :password, :pin, :seed) WHERE id = :passId");
+    query.bindValue(":site", data.site);
+    query.bindValue(":username", data.username);
+    query.bindValue(":password", data.pass);
+    query.bindValue(":pin", data.pin);
+    query.bindValue(":seed", data.seed);
+    query.bindValue(":passId", passId);
+
+    bool result = query.exec();
+    if(!result)
+        qDebug() << "Could not create table, may already exist";
+    else
+        qDebug() << "Entry updated";
+    return result;
+}
+
 QList<int> DbManager::listAllPassIds() const
 {
     qDebug() << "users from password DB from DB: ";
-    QSqlQuery query("SELECT * FROM passStore");
+    QSqlQuery query("SELECT * FROM PasswordEntries");
     int idIndex = query.record().indexOf("id");
     QList<int> list;
     while (query.next())
@@ -217,7 +220,7 @@ QList<int> DbManager::listAllPassIdsForUserId(int userId) const
 {
     qDebug() << "users from password DB from DB: ";
     QSqlQuery query(mDb);
-    query.prepare("SELECT id FROM passStore WHERE userId = :uId");
+    query.prepare("SELECT id FROM PasswordEntries WHERE userId = :uId");
     query.bindValue(":uId", userId);
 
     //int id = query.record().indexOf("id");
@@ -235,17 +238,17 @@ QList<int> DbManager::listAllPassIdsForUserId(int userId) const
     return list;
 }
 
-SiteData DbManager::siteDataForPassId(int passId) const
+EntryData DbManager::EntryDataForPassId(int passId) const
 {
     qDebug() << "users from password DB from DB: ";
     QSqlQuery query(mDb);
-    query.prepare("SELECT site, username, password, pin, seed FROM passStore WHERE id = :passId");
+    query.prepare("SELECT site, username, password, pin, seed FROM PasswordEntries WHERE id = :passId");
     query.bindValue(":passId", passId);
 
     if (!query.exec())
         return {};
 
-    SiteData data;
+    EntryData data;
     while (query.next())
     {
         data.site = query.value(0).toString();
@@ -261,14 +264,14 @@ SiteData DbManager::siteDataForPassId(int passId) const
 }
 
 
-bool DbManager::deleteEntry(int userId, SiteData& data)
+bool DbManager::deleteEntry(int userId, EntryData& data)
 {
     bool result = false;
 
     if(entryExists(userId, data.site))
     {
         QSqlQuery query;
-        query.prepare("DELETE FROM passStore WHERE userId = (:userId) AND data.site = (:site)");
+        query.prepare("DELETE FROM PasswordEntries WHERE userId = (:userId) AND data.site = (:site)");
         query.bindValue(":userId", userId);
         query.bindValue(":site", data.site);
         result = query.exec();
@@ -282,7 +285,7 @@ bool DbManager::deleteEntry(int userId, SiteData& data)
 void DbManager::listAllEntries() const
 {
     qDebug() << "users from password DB from DB: ";
-    QSqlQuery query("SELECT * FROM passStore");
+    QSqlQuery query("SELECT * FROM PasswordEntries");
     int userId = query.record().indexOf("userId");
     while(query.next())
     {
@@ -294,7 +297,7 @@ void DbManager::listAllEntries() const
 bool DbManager::entryExists(int userId, const QString site)
 {
     QSqlQuery query;
-    query.prepare("SELECT userId,site FROM passStore WHERE userId = (:userId) AND site = (:site)");
+    query.prepare("SELECT userId,site FROM PasswordEntries WHERE userId = (:userId) AND site = (:site)");
     query.bindValue(":userId", userId);
     query.bindValue(":site", site);
 

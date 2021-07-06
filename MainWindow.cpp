@@ -84,7 +84,7 @@ void MainWindow::onLoginRequest()
 void MainWindow::on_saveButton_clicked()
 {
      int userId = mDb->getUserId(mUsername);
-     SiteData data;
+     EntryData data;
      data.username = ui->usernameLineEdit->text();
      data.site = ui->websiteLineEdit->text();
      data.pass = ui->passwordLineEdit->text();
@@ -94,13 +94,12 @@ void MainWindow::on_saveButton_clicked()
     if(!mDb->entryExists(mUserId, data.site))
     {
         int passInfoDbId = mDb->addEntry(userId, data);
-        //int passInfoDbId = 1;
 
         QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
 
         qDebug() << allPassIds;
 
-        SiteData data = mDb->siteDataForPassId(passInfoDbId);
+        EntryData data = mDb->EntryDataForPassId(passInfoDbId);
 
         ui->usernameLineEdit->setText(data.username + "Back");
         ui->websiteLineEdit->setText(data.site + "Back");
@@ -114,6 +113,7 @@ void MainWindow::on_saveButton_clicked()
     }
 
 }
+
 //original code below
 /*void MainWindow::on_saveButton_clicked()
 {
@@ -128,7 +128,7 @@ void MainWindow::on_saveButton_clicked()
 
     QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
 
-    SiteData data = mDb->siteDataForPassId(passInfoDbId);
+    EntryData data = mDb->EntryDataForPassId(passInfoDbId);
 
     ui->usernameLineEdit->setText(data.username + "Back");
     ui->websiteLineEdit->setText(data.site + "Back");
