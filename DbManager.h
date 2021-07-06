@@ -48,7 +48,7 @@ public:
 private:
     bool createUsersTable();
     bool createPassTable();
-    bool deleteEntry(const int& userId, const  QString& site);
+    bool deleteEntry(int userId, SiteData& data);
     void listAllEntries() const;
 
 
