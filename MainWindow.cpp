@@ -91,25 +91,50 @@ void MainWindow::on_saveButton_clicked()
      data.pin = ui->pinLineEdit->text();
      data.seed = ui->seedEdit->toPlainText();
 
-    if(mDb->entryExists(mUserId, data.site))
+    if(!mDb->entryExists(mUserId, data.site))
     {
-        mDb->editEntry(/* Entry Id */mUserId, data);
+        int passInfoDbId = mDb->addEntry(userId, data);
+        //int passInfoDbId = 1;
+
+        QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
+
+        qDebug() << allPassIds;
+
+        SiteData data = mDb->siteDataForPassId(passInfoDbId);
+
+        ui->usernameLineEdit->setText(data.username + "Back");
+        ui->websiteLineEdit->setText(data.site + "Back");
+        ui->passwordLineEdit->setText(data.pass + "Back");
+        ui->pinLineEdit->setText(data.pin + "Back");
+        ui->seedEdit->setPlainText(data.seed + "Back");
     }
     else
     {
-        mDb->addEntry(userId, data);
-
-        //int passInfoDbId =
-        //QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
-
-        //SiteData data = mDb->siteDataForPassId(passInfoDbId);
-
-        //ui->usernameLineEdit->setText(data.username + "Back");
-        //ui->websiteLineEdit->setText(data.site + "Back");
-        //ui->passwordLineEdit->setText(data.pass + "Back");
-        //ui->pinLineEdit->setText(data.pin + "Back");
-        //ui->seedEdit->setPlainText(data.seed + "Back");
+        mDb->editEntry(/*passInfoDbId*/mUserId, data);
     }
 
 }
+//original code below
+/*void MainWindow::on_saveButton_clicked()
+{
+    int userId = mDb->getUserId(mUsername);
+    QString user = ui->usernameLineEdit->text();
+    QString site = ui->websiteLineEdit->text();
+    QString pass = ui->passwordLineEdit->text();
+    int pin = ui->pinLineEdit->text().toInt();
+    QString seed = ui->seedEdit->toPlainText();
+
+    int passInfoDbId = mDb->addEntry(userId, site, user, pass, pin, seed);
+
+    QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
+
+    SiteData data = mDb->siteDataForPassId(passInfoDbId);
+
+    ui->usernameLineEdit->setText(data.username + "Back");
+    ui->websiteLineEdit->setText(data.site + "Back");
+    ui->passwordLineEdit->setText(data.pass + "Back");
+    ui->pinLineEdit->setText(data.pin + "Back");
+    ui->seedEdit->setPlainText(data.seed + "Back");
+}
+*/
 

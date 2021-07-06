@@ -128,36 +128,6 @@ bool DbManager::removeAllUsers()
     return result;
 }
 
-//Password storage functions
-bool DbManager::editEntry(int passId, SiteData &data)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO passStore (data.site, data.username, data.password, data.pin, data.seed) VALUES (:site, :username, :password, :pin, :seed)");
-    query.bindValue(":site", data.site);
-    query.bindValue(":username", data.username);
-    query.bindValue(":password", data.pass);
-    query.bindValue(":pin", data.pin);
-    query.bindValue(":seed", data.seed);
-
-    bool result = query.exec();
-    if(!result)
-        qDebug() << "Could not create table, may already exist";
-    else
-        qDebug() << "Entry updated";
-    return result;
-}
-
-bool DbManager::createPassTable()
-{
-    QSqlQuery query;
-    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, password TEXT, pin INTEGER, seed TEXT);");
-
-    bool result = query.exec();
-    if(!result)
-        qDebug() << "Could not create table, may already exist";
-    return result;
-}
-
 int DbManager::getUserId(const QString &username) const
 {
     QSqlQuery query;
@@ -173,6 +143,19 @@ int DbManager::getUserId(const QString &username) const
         }
     }
     return id;
+}
+
+//Password storage functions
+
+bool DbManager::createPassTable()
+{
+    QSqlQuery query;
+    query.prepare("CREATE TABLE passStore(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, password TEXT, pin INTEGER, seed TEXT);");
+
+    bool result = query.exec();
+    if(!result)
+        qDebug() << "Could not create table, may already exist";
+    return result;
 }
 
 int addEntry(int userId, SiteData& data)
@@ -197,6 +180,30 @@ int addEntry(int userId, SiteData& data)
         qDebug() << "addPassword() error: " << query.lastError();
 
     return id;
+}
+
+bool DbManager::editEntry(int passId, SiteData &data)
+{
+    
+    //QSqlQuery query(mDb);
+    //query.prepare("SELECT site, username, password, pin, seed FROM passStore WHERE id = :passId");
+    //query.bindValue(":passId", passId);
+    
+    QSqlQuery query;
+    query.prepare("INSERT INTO passStore WHERE id = :passId (data.site, data.username, data.password, data.pin, data.seed) VALUES (:site, :username, :password, :pin, :seed)");
+    query.bindValue(":passId", passId)
+    query.bindValue(":site", data.site);
+    query.bindValue(":username", data.username);
+    query.bindValue(":password", data.pass);
+    query.bindValue(":pin", data.pin);
+    query.bindValue(":seed", data.seed);
+
+    bool result = query.exec();
+    if(!result)
+        qDebug() << "Could not create table, may already exist";
+    else
+        qDebug() << "Entry updated";
+    return result;
 }
 
 QList<int> DbManager::listAllPassIds() const
