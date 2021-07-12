@@ -174,7 +174,7 @@ int DbManager::addEntry(int userId, EntryData& data)
     int id = -1;
     if (result) {
         id = query.lastInsertId().toInt();
-        qDebug() << id;
+        qDebug() << "pass id on add is:" << id;
     }
     else {
         qDebug() << "addPassword() error: " << query.lastError();
@@ -185,7 +185,6 @@ int DbManager::addEntry(int userId, EntryData& data)
 
 bool DbManager::editEntry(int passId, EntryData &data)
 {
-    // I don't think the below query is correct but I can't seem to find the right information on it
     QSqlQuery query(mDb);
     query.prepare("UPDATE PasswordEntries (site, username, password, pin, seed) VALUES (:site, :username, :password, :pin, :seed) WHERE id = :passId");
     query.bindValue(":site", data.site);
@@ -197,7 +196,7 @@ bool DbManager::editEntry(int passId, EntryData &data)
 
     bool result = query.exec();
     if(!result)
-        qDebug() << "Could not create table, may already exist";
+        qDebug() << "Could not edit entry";
     else
         qDebug() << "Entry updated";
     return result;
@@ -319,7 +318,7 @@ bool DbManager::entryExists(int userId, const QString& site)
 int DbManager::getPassId(int userId, const QString& site)
 {
     QSqlQuery query(mDb);
-    query.prepare("SELECT userId, site, passId FROM PasswordEntries WHERE userId = (:userId) AND site = (:site)");
+    query.prepare("SELECT id FROM PasswordEntries WHERE userId = (:userId) AND site = (:site)");
     query.bindValue(":userId", userId);
     query.bindValue(":site", site);
 
@@ -328,9 +327,11 @@ int DbManager::getPassId(int userId, const QString& site)
     if (query.exec())
     {
         if (query.next())
-            passId = -1; // get the passId from the query
-        else
-            qDebug() << "Entry not in DB";
+        {
+            passId = query.value(0).toInt();
+            qDebug() << "PassId query value is:" << passId;
+        }
     }
     return passId;
+
 }

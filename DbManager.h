@@ -7,12 +7,9 @@
 struct EntryData
 {
     EntryData()
-        : id(-1)
-    {
-        //int a = id;
-    }
+        : passId(-1) {}
 
-    int id;
+    int passId;
     QString site;
     QString username;
     QString pass;
@@ -41,7 +38,7 @@ public:
     //Edit Password storage entries below
     bool editEntry(int passId, EntryData& data);
     int addEntry(int userId, EntryData& data);
-    //bool EntryDataEntryExist(const QString& site);
+    bool EntryDataEntryExist(const QString& site);
     QList<EntryData> listAllSiteInfoForUserId(int userId) const;
 
     int getUserId(const QString& username) const;

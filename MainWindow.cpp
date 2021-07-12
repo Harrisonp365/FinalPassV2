@@ -99,8 +99,6 @@ void MainWindow::on_saveButton_clicked()
 
         QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
 
-        qDebug() << allPassIds;
-
         EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
 
         ui->usernameLineEdit->setText(dataBack.username + "Back");
@@ -111,8 +109,9 @@ void MainWindow::on_saveButton_clicked()
     }
     else
     {
-        int passId = mDb->getPassId(userId, data.site);
-        mDb->editEntry(passId, data);
+        data.passId = mDb->getPassId(userId, data.site);
+        qDebug() << "Current Password ID:" << data.passId;
+        mDb->editEntry(data.passId, data);
     }
 
 }
