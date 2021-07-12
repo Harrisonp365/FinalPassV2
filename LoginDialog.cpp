@@ -80,7 +80,7 @@ void LoginDialog::onSignupRequest()
 }
 
 void LoginDialog::onLoginRequest()
-{  
+{
     int userId = mDb->getUserId(username());
     qDebug() << userId;
     if(userId < 1)

@@ -39,7 +39,7 @@ void DbManager::initTables()
 
 bool DbManager::createUsersTable()
 {
-    QSqlQuery query;
+    QSqlQuery query(mDb);
     query.prepare("CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT);");
 
     bool result = query.exec();
@@ -51,7 +51,7 @@ bool DbManager::createUsersTable()
 
 bool DbManager::addUser(const QString &username, const QString &password)
 {
-    QSqlQuery query;
+    QSqlQuery query(mDb);
     query.prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
     query.bindValue(":username", username);
     query.bindValue(":password", password);
@@ -69,7 +69,7 @@ bool DbManager::removeUser(const QString &username, const QString &password)
 
     if(userExists(username, password))
     {
-        QSqlQuery query;
+        QSqlQuery query(mDb);
         query.prepare("DELETE FROM users WHERE username = (:username) AND password = (:password)");
         query.bindValue(":username", username);
         query.bindValue(":password", password);
@@ -83,7 +83,7 @@ bool DbManager::removeUser(const QString &username, const QString &password)
 
 bool DbManager::userExists(const QString &username, const QString &password)
 {
-    QSqlQuery query;
+    QSqlQuery query(mDb);
     query.prepare("SELECT username, password FROM users WHERE username = (:username) AND password = (:password)");
     query.bindValue(":username", username);
     query.bindValue(":password", password);
@@ -107,7 +107,8 @@ bool DbManager::userNameExists(const QString &username)
 void DbManager::listAllUsers() const
 {
     qDebug() << "Usernames from DB: ";
-    QSqlQuery query("SELECT * FROM users");
+    QSqlQuery query(mDb);
+    query.prepare("SELECT * FROM users");
     int userId = query.record().indexOf("username");
     while(query.next())
     {
@@ -118,7 +119,7 @@ void DbManager::listAllUsers() const
 
 bool DbManager::removeAllUsers()
 {
-    QSqlQuery removeQuery;
+    QSqlQuery removeQuery(mDb);
     removeQuery.prepare("DELETE FROM users");
 
     bool result = removeQuery.exec();
@@ -130,7 +131,7 @@ bool DbManager::removeAllUsers()
 
 int DbManager::getUserId(const QString &username) const
 {
-    QSqlQuery query;
+    QSqlQuery query(mDb);
     query.prepare("SELECT id FROM users WHERE username = (:username)");
     query.bindValue(":username", username);
 
@@ -149,7 +150,7 @@ int DbManager::getUserId(const QString &username) const
 
 bool DbManager::createPassTable()
 {
-    QSqlQuery query;
+    QSqlQuery query(mDb);
     query.prepare("CREATE TABLE PasswordEntries(id INTEGER PRIMARY KEY, userId INTEGER, site TEXT, username TEXT, password TEXT, pin INTEGER, seed TEXT);");
 
     bool result = query.exec();
@@ -158,10 +159,10 @@ bool DbManager::createPassTable()
     return result;
 }
 
-int addEntry(int userId, EntryData& data)
+int DbManager::addEntry(int userId, EntryData& data)
 {
-    QSqlQuery query;
-    query.prepare("INSERT INTO PasswordEntries (userId, data.site, data.username, data.password, data.pin, data.seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
+    QSqlQuery query(mDb);
+    query.prepare("INSERT INTO PasswordEntries (userId, site, username, password, pin, seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
     query.bindValue(":userId", userId);
     query.bindValue(":site", data.site);
     query.bindValue(":username", data.username);
@@ -171,13 +172,13 @@ int addEntry(int userId, EntryData& data)
 
     bool result = query.exec();
     int id = -1;
-    if (result)
-    {
+    if (result) {
         id = query.lastInsertId().toInt();
-    qDebug() << id;
+        qDebug() << id;
     }
-    else
+    else {
         qDebug() << "addPassword() error: " << query.lastError();
+    }
 
     return id;
 }
@@ -185,8 +186,8 @@ int addEntry(int userId, EntryData& data)
 bool DbManager::editEntry(int passId, EntryData &data)
 {
     // I don't think the below query is correct but I can't seem to find the right information on it
-    QSqlQuery query;
-    query.prepare("UPDATE PasswordEntries (data.site, data.username, data.password, data.pin, data.seed) VALUES (:site, :username, :password, :pin, :seed) WHERE id = :passId");
+    QSqlQuery query(mDb);
+    query.prepare("UPDATE PasswordEntries (site, username, password, pin, seed) VALUES (:site, :username, :password, :pin, :seed) WHERE id = :passId");
     query.bindValue(":site", data.site);
     query.bindValue(":username", data.username);
     query.bindValue(":password", data.pass);
@@ -205,7 +206,8 @@ bool DbManager::editEntry(int passId, EntryData &data)
 QList<int> DbManager::listAllPassIds() const
 {
     qDebug() << "users from password DB from DB: ";
-    QSqlQuery query("SELECT * FROM PasswordEntries");
+    QSqlQuery query(mDb);
+    query.prepare("SELECT * FROM PasswordEntries");
     int idIndex = query.record().indexOf("id");
     QList<int> list;
     while (query.next())
@@ -238,7 +240,7 @@ QList<int> DbManager::listAllPassIdsForUserId(int userId) const
     return list;
 }
 
-EntryData DbManager::EntryDataForPassId(int passId) const
+EntryData DbManager::entryDataForPassId(int passId) const
 {
     qDebug() << "users from password DB from DB: ";
     QSqlQuery query(mDb);
@@ -270,8 +272,8 @@ bool DbManager::deleteEntry(int userId, EntryData& data)
 
     if(entryExists(userId, data.site))
     {
-        QSqlQuery query;
-        query.prepare("DELETE FROM PasswordEntries WHERE userId = (:userId) AND data.site = (:site)");
+        QSqlQuery query(mDb);
+        query.prepare("DELETE FROM PasswordEntries WHERE userId = (:userId) AND site = (:site)");
         query.bindValue(":userId", userId);
         query.bindValue(":site", data.site);
         result = query.exec();
@@ -285,7 +287,8 @@ bool DbManager::deleteEntry(int userId, EntryData& data)
 void DbManager::listAllEntries() const
 {
     qDebug() << "users from password DB from DB: ";
-    QSqlQuery query("SELECT * FROM PasswordEntries");
+    QSqlQuery query(mDb);
+    query.prepare("SELECT * FROM PasswordEntries");
     int userId = query.record().indexOf("userId");
     while(query.next())
     {
@@ -294,20 +297,40 @@ void DbManager::listAllEntries() const
     }
 }
 
-bool DbManager::entryExists(int userId, const QString site)
+bool DbManager::entryExists(int userId, const QString& site)
 {
-    QSqlQuery query;
-    query.prepare("SELECT userId,site FROM PasswordEntries WHERE userId = (:userId) AND site = (:site)");
+    QSqlQuery query(mDb);
+    query.prepare("SELECT userId, site FROM PasswordEntries WHERE userId = (:userId) AND site = (:site)");
     query.bindValue(":userId", userId);
     query.bindValue(":site", site);
 
     bool result = false;
     if (query.exec())
     {
-       if (query.next())
-          result = true;
+        if (query.next())
+            result = true;
         else
-           qDebug() << "Entry not in DB";
+            qDebug() << "Entry not in DB";
     }
     return result;
+}
+
+
+int DbManager::getPassId(int userId, const QString& site)
+{
+    QSqlQuery query(mDb);
+    query.prepare("SELECT userId, site, passId FROM PasswordEntries WHERE userId = (:userId) AND site = (:site)");
+    query.bindValue(":userId", userId);
+    query.bindValue(":site", site);
+
+    // Extract the PassId for userId and site
+    int passId = -1;
+    if (query.exec())
+    {
+        if (query.next())
+            passId = -1; // get the passId from the query
+        else
+            qDebug() << "Entry not in DB";
+    }
+    return passId;
 }

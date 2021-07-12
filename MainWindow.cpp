@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
         mDb->initTables();
     }
     else
-        qDebug() << "Database is not open!";  
+        qDebug() << "Database is not open!";
 }
 
 MainWindow::~MainWindow()
@@ -84,6 +84,8 @@ void MainWindow::onLoginRequest()
 void MainWindow::on_saveButton_clicked()
 {
      int userId = mDb->getUserId(mUsername);
+     mUserId = userId;
+
      EntryData data;
      data.username = ui->usernameLineEdit->text();
      data.site = ui->websiteLineEdit->text();
@@ -91,7 +93,7 @@ void MainWindow::on_saveButton_clicked()
      data.pin = ui->pinLineEdit->text();
      data.seed = ui->seedEdit->toPlainText();
 
-    if(!mDb->entryExists(mUserId, data.site))
+    if(!mDb->entryExists(userId, data.site))
     {
         int passInfoDbId = mDb->addEntry(userId, data);
 
@@ -99,42 +101,18 @@ void MainWindow::on_saveButton_clicked()
 
         qDebug() << allPassIds;
 
-        EntryData data = mDb->EntryDataForPassId(passInfoDbId);
+        EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
 
-        ui->usernameLineEdit->setText(data.username + "Back");
-        ui->websiteLineEdit->setText(data.site + "Back");
-        ui->passwordLineEdit->setText(data.pass + "Back");
-        ui->pinLineEdit->setText(data.pin + "Back");
-        ui->seedEdit->setPlainText(data.seed + "Back");
+        ui->usernameLineEdit->setText(dataBack.username + "Back");
+        ui->websiteLineEdit->setText(dataBack.site + "Back");
+        ui->passwordLineEdit->setText(dataBack.pass + "Back");
+        ui->pinLineEdit->setText(dataBack.pin + "Back");
+        ui->seedEdit->setPlainText(dataBack.seed + "Back");
     }
     else
     {
-        mDb->editEntry(/*passInfoDbId*/mUserId, data);
+        int passId = mDb->getPassId(userId, data.site);
+        mDb->editEntry(passId, data);
     }
 
 }
-
-//original code below
-/*void MainWindow::on_saveButton_clicked()
-{
-    int userId = mDb->getUserId(mUsername);
-    QString user = ui->usernameLineEdit->text();
-    QString site = ui->websiteLineEdit->text();
-    QString pass = ui->passwordLineEdit->text();
-    int pin = ui->pinLineEdit->text().toInt();
-    QString seed = ui->seedEdit->toPlainText();
-
-    int passInfoDbId = mDb->addEntry(userId, site, user, pass, pin, seed);
-
-    QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
-
-    EntryData data = mDb->EntryDataForPassId(passInfoDbId);
-
-    ui->usernameLineEdit->setText(data.username + "Back");
-    ui->websiteLineEdit->setText(data.site + "Back");
-    ui->passwordLineEdit->setText(data.pass + "Back");
-    ui->pinLineEdit->setText(data.pin + "Back");
-    ui->seedEdit->setPlainText(data.seed + "Back");
-}
-*/
-

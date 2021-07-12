@@ -19,7 +19,7 @@ private slots:
 
 private:
     bool userToDb(const QString& username, const QString& pass);
-    void passwordToDb();
+    //void passwordToDb();
     bool checkPasswords(const QString& pass1, const QString& pass2);
     bool checkUsername(const QString& username);
 
