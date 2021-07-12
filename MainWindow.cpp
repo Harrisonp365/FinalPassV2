@@ -65,6 +65,14 @@ void MainWindow::richTextToText()
     // Will use this to help convert and seephrase edit items to text in order to fill DB correctly
 }
 
+void MainWindow::showAllPasswordEntries()
+{
+    int passInfoDbId = mDb->addEntry(mUserId, data);
+    QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
+
+    EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
+}
+
 void MainWindow::createUI()
 {
     ui->menubar->addMenu("Menu bar");
@@ -83,8 +91,7 @@ void MainWindow::onLoginRequest()
 
 void MainWindow::on_saveButton_clicked()
 {
-     int userId = mDb->getUserId(mUsername);
-     mUserId = userId;
+     mUserId = mDb->getUserId(mUsername);
 
      EntryData data;
      data.username = ui->usernameLineEdit->text();
@@ -93,11 +100,11 @@ void MainWindow::on_saveButton_clicked()
      data.pin = ui->pinLineEdit->text();
      data.seed = ui->seedEdit->toPlainText();
 
-    if(!mDb->entryExists(userId, data.site))
+    if(!mDb->entryExists(mUserId, data.site))
     {
-        int passInfoDbId = mDb->addEntry(userId, data);
+        int passInfoDbId = mDb->addEntry(mUserId, data);
 
-        QList<int> allPassIds = mDb->listAllPassIdsForUserId(userId);
+        QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
 
         EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
 
@@ -109,7 +116,7 @@ void MainWindow::on_saveButton_clicked()
     }
     else
     {
-        data.passId = mDb->getPassId(userId, data.site);
+        data.passId = mDb->getPassId(mUserId, data.site);
         qDebug() << "Current Password ID:" << data.passId;
         mDb->editEntry(data.passId, data);
     }
