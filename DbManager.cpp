@@ -224,7 +224,6 @@ QList<int> DbManager::listAllPassIdsForUserId(int userId) const
     query.prepare("SELECT id FROM PasswordEntries WHERE userId = :uId");
     query.bindValue(":uId", userId);
 
-    //int id = query.record().indexOf("id");
     if (!query.exec()) {
         qDebug() << query.lastQuery() << query.lastError().text();
         return {};
@@ -263,7 +262,6 @@ EntryData DbManager::entryDataForPassId(int passId) const
 
     return data;
 }
-
 
 bool DbManager::deleteEntry(int userId, EntryData& data)
 {
@@ -314,7 +312,6 @@ bool DbManager::entryExists(int userId, const QString& site)
     return result;
 }
 
-
 int DbManager::getPassId(int userId, const QString& site)
 {
     QSqlQuery query(mDb);
@@ -333,5 +330,4 @@ int DbManager::getPassId(int userId, const QString& site)
         }
     }
     return passId;
-
 }

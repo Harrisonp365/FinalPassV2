@@ -67,10 +67,12 @@ void MainWindow::richTextToText()
 
 void MainWindow::showAllPasswordEntries()
 {
-    int passInfoDbId = mDb->addEntry(mUserId, data);
+    mUserId = mDb->getUserId(mUsername);
+    //int passInfoDbId = mDb->addEntry(mUserId, data);
     QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
-
-    EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
+    qDebug() << "All Password entries to be displayed:" << allPassIds;
+    //ui->site
+    //EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
 }
 
 void MainWindow::createUI()
@@ -87,6 +89,7 @@ void MainWindow::onSignupRequest()
 void MainWindow::onLoginRequest()
 {
     this->show();
+    showAllPasswordEntries();
 }
 
 void MainWindow::on_saveButton_clicked()
@@ -104,15 +107,15 @@ void MainWindow::on_saveButton_clicked()
     {
         int passInfoDbId = mDb->addEntry(mUserId, data);
 
-        QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
+        //QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
 
         EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
 
-        ui->usernameLineEdit->setText(dataBack.username + "Back");
-        ui->websiteLineEdit->setText(dataBack.site + "Back");
-        ui->passwordLineEdit->setText(dataBack.pass + "Back");
-        ui->pinLineEdit->setText(dataBack.pin + "Back");
-        ui->seedEdit->setPlainText(dataBack.seed + "Back");
+        //ui->usernameLineEdit->setText(dataBack.username + "Back");
+        //ui->websiteLineEdit->setText(dataBack.site + "Back");
+        //ui->passwordLineEdit->setText(dataBack.pass + "Back");
+        //ui->pinLineEdit->setText(dataBack.pin + "Back");
+        //ui->seedEdit->setPlainText(dataBack.seed + "Back");
     }
     else
     {

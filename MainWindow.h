@@ -16,11 +16,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void showAllPasswordEntries();
 
 private:
     void createUI();
     void showLoginDialog();
     void richTextToText();
+
 
 private slots:
     void onSignupRequest();

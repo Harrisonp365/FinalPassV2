@@ -87,4 +87,5 @@ void LoginDialog::onLoginRequest()
         QMessageBox::warning(this, "login", "Please enter valid user details");
     else
         accept();
+
 }
