@@ -71,7 +71,7 @@ void MainWindow::showAllPasswordEntries()
     //int passInfoDbId = mDb->addEntry(mUserId, data);
     QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
     qDebug() << "All Password entries to be displayed:" << allPassIds;
-    //ui->site
+
     //EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
 }
 
@@ -89,7 +89,7 @@ void MainWindow::onSignupRequest()
 void MainWindow::onLoginRequest()
 {
     this->show();
-    showAllPasswordEntries();
+    //showAllPasswordEntries();
 }
 
 void MainWindow::on_saveButton_clicked()
@@ -106,6 +106,7 @@ void MainWindow::on_saveButton_clicked()
     if(!mDb->entryExists(mUserId, data.site))
     {
         int passInfoDbId = mDb->addEntry(mUserId, data);
+        ui->EntrySiteLabel->setText(data.site);
 
         //QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
 
