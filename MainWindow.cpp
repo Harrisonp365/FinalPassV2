@@ -68,13 +68,12 @@ void MainWindow::richTextToText()
 QList<int> MainWindow::showAllPasswordEntries()
 {
     mUserId = mDb->getUserId(mUsername);
-
-    //int passInfoDbId = mDb->addEntry(mUserId, data);
-    QList<int> passIdToDisplay = mDb->listAllPassIdsForUserId(mUserId);
-    qDebug() << "All Password entries to be displayed:" << passIdToDisplay;
+    QList<int> passIdsToDisplay = mDb->listAllPassIdsForUserId(mUserId);
+    qDebug() << "All Password entries to be displayed:" << passIdsToDisplay;
 
     //EntryData dataBack = mDb->entryDataForPassId(passInfoDbId);
-    return passIdToDisplay;
+
+    return passIdsToDisplay;
 }
 
 void MainWindow::createUI()
@@ -96,11 +95,9 @@ void MainWindow::onLoginRequest()
 
 void MainWindow::on_saveButton_clicked()
 {
-    //mUserId = mDb->getUserId(mUsername);
     showAllPasswordEntries();
     /*
-
-
+     mUserId = mDb->getUserId(mUsername);
      EntryData data;
      data.username = ui->usernameLineEdit->text();
      data.site = ui->websiteLineEdit->text();
@@ -108,10 +105,11 @@ void MainWindow::on_saveButton_clicked()
      data.pin = ui->pinLineEdit->text();
      data.seed = ui->seedEdit->toPlainText();
 
+     qDebug() << "this is show all pass entries func call" << showAllPasswordEntries();
     if(!mDb->entryExists(mUserId, data.site))
     {
         int passInfoDbId = mDb->addEntry(mUserId, data);
-        ui->EntrySiteLabel->setText();
+        //ui->EntrySiteLabel->setText(showAllPasswordEntries().first());
 
         //QList<int> allPassIds = mDb->listAllPassIdsForUserId(mUserId);
 
@@ -125,9 +123,9 @@ void MainWindow::on_saveButton_clicked()
     }
     else
     {
-        data.passId = mDb->getPassId(mUserId, data.site);
-        qDebug() << "Current Password ID:" << data.passId;
-        mDb->editEntry(data.passId, data);
-    }
+        data.ID = mDb->getPassId(mUserId, data.site);
+        qDebug() << "Current Password ID:" << data.ID;
+        mDb->editEntry(data.ID, data);
+    }  
     */
 }

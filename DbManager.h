@@ -7,9 +7,9 @@
 struct EntryData
 {
     EntryData()
-        : passId(-1) {}
+        : ID(-1) {}
 
-    int passId;
+    int ID;
     QString site;
     QString username;
     QString pass;
@@ -43,7 +43,7 @@ public:
 
     int getUserId(const QString& username) const;
 
-    QList<int> listAllPassIds() const;
+    //QList<int> listAllPassIds() const;
     QList<int> listAllPassIdsForUserId(int userId) const;
     EntryData entryDataForPassId(int passId) const;
     bool entryExists(int userId, const QString& site);

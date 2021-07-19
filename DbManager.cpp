@@ -44,7 +44,7 @@ bool DbManager::createUsersTable()
 
     bool result = query.exec();
     if(!result)
-        qDebug() << "Could not create user table, may already exist";
+        qDebug() << "Could not create Users table, may already exist";
 
     return result;
 }
@@ -155,14 +155,15 @@ bool DbManager::createPassTable()
 
     bool result = query.exec();
     if(!result)
-        qDebug() << "Could not create table, may already exist";
+        qDebug() << "Could not create PasswordEntries table, may already exist";
     return result;
 }
 
 int DbManager::addEntry(int userId, EntryData& data)
 {
     QSqlQuery query(mDb);
-    query.prepare("INSERT INTO PasswordEntries (userId, site, username, password, pin, seed) VALUES (:userId, :site, :username, :password, :pin, :seed)");
+    query.prepare("INSERT INTO PasswordEntries (ID, userId, site, username, password, pin, seed) VALUES (:ID, :userId, :site, :username, :password, :pin, :seed)");
+    query.bindValue("ID", data.ID);
     query.bindValue(":userId", userId);
     query.bindValue(":site", data.site);
     query.bindValue(":username", data.username);
@@ -201,22 +202,7 @@ bool DbManager::editEntry(int passId, EntryData &data)
         qDebug() << "Entry updated";
     return result;
 }
-/*
-QList<int> DbManager::listAllPassIds() const
-{
-    qDebug() << "list all pass ids ";
-    QSqlQuery query(mDb);
-    query.prepare("SELECT * FROM PasswordEntries");
-    int idIndex = query.record().indexOf("id");
-    QList<int> list;
-    while (query.next())
-    {
-        list << query.value(idIndex).toInt();
-        //qDebug() << "=> " << user;
-    }
-    return list;
-}
-*/
+
 QList<int> DbManager::listAllPassIdsForUserId(int userId) const
 {
     QSqlQuery query(mDb);
@@ -232,7 +218,6 @@ QList<int> DbManager::listAllPassIdsForUserId(int userId) const
     while (query.next())
     {
         list << query.value(0).toInt();
-        qDebug() << "current list value for query:" << list;
     }
     qDebug() << "list from sql query: " << list;
     return list;
@@ -240,7 +225,7 @@ QList<int> DbManager::listAllPassIdsForUserId(int userId) const
 
 EntryData DbManager::entryDataForPassId(int passId) const
 {
-    qDebug() << "users from password DB from DB: ";
+    qDebug() << "entryDataForPassId called";
     QSqlQuery query(mDb);
     query.prepare("SELECT site, username, password, pin, seed FROM PasswordEntries WHERE id = :passId");
     query.bindValue(":passId", passId);
@@ -256,8 +241,6 @@ EntryData DbManager::entryDataForPassId(int passId) const
         data.pass = query.value(2).toString();
         data.pin = query.value(3).toString();
         data.seed = query.value(4).toString();
-
-        //qDebug() << "=> " << user;
     }
 
     return data;
