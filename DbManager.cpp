@@ -163,7 +163,7 @@ int DbManager::addEntry(int userId, EntryData& data)
 {
     QSqlQuery query(mDb);
     query.prepare("INSERT INTO PasswordEntries (ID, userId, site, username, password, pin, seed) VALUES (:ID, :userId, :site, :username, :password, :pin, :seed)");
-    query.bindValue("ID", data.ID);
+    query.bindValue("ID", data.id);
     query.bindValue(":userId", userId);
     query.bindValue(":site", data.site);
     query.bindValue(":username", data.username);

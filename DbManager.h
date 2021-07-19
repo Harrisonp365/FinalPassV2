@@ -7,9 +7,9 @@
 struct EntryData
 {
     EntryData()
-        : ID(-1) {}
+        : id(-1) {}
 
-    int ID;
+    int id;
     QString site;
     QString username;
     QString pass;

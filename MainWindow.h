@@ -4,6 +4,7 @@
 #include "SignupDialog.h"
 #include "DbManager.h"
 #include <QMainWindow>
+#include <QListWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QList<int> showAllPasswordEntries();
+    void showAllPasswordEntries();
 
 private:
     void createUI();
@@ -27,6 +28,7 @@ private:
 private slots:
     void onSignupRequest();
     void onLoginRequest();
+    void listWidgetClicked(QListWidgetItem *item);
 
 
     void on_saveButton_clicked();
