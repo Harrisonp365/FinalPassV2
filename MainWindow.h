@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void showAllPasswordEntries();
+    QList<int> showAllPasswordEntries();
 
 private:
     void createUI();

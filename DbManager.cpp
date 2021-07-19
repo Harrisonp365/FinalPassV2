@@ -201,10 +201,10 @@ bool DbManager::editEntry(int passId, EntryData &data)
         qDebug() << "Entry updated";
     return result;
 }
-
+/*
 QList<int> DbManager::listAllPassIds() const
 {
-    qDebug() << "users from password DB from DB: ";
+    qDebug() << "list all pass ids ";
     QSqlQuery query(mDb);
     query.prepare("SELECT * FROM PasswordEntries");
     int idIndex = query.record().indexOf("id");
@@ -216,13 +216,12 @@ QList<int> DbManager::listAllPassIds() const
     }
     return list;
 }
-
+*/
 QList<int> DbManager::listAllPassIdsForUserId(int userId) const
 {
-    qDebug() << "users from password DB from DB: ";
     QSqlQuery query(mDb);
-    query.prepare("SELECT id FROM PasswordEntries WHERE userId = :uId");
-    query.bindValue(":uId", userId);
+    query.prepare("SELECT id FROM PasswordEntries WHERE userId = :userId");
+    query.bindValue(":userId", userId);
 
     if (!query.exec()) {
         qDebug() << query.lastQuery() << query.lastError().text();
@@ -233,8 +232,9 @@ QList<int> DbManager::listAllPassIdsForUserId(int userId) const
     while (query.next())
     {
         list << query.value(0).toInt();
-        //qDebug() << "=> " << user;
+        qDebug() << "current list value for query:" << list;
     }
+    qDebug() << "list from sql query: " << list;
     return list;
 }
 
